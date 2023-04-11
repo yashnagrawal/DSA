@@ -17,16 +17,14 @@ class Solution{
         
         for(int i=0; i<n; i++){
             for(int j=0; j<i; j++){
-                if(a[i]>a[j]){
-                    if(lis[i]<lis[j]+1){
-                        lis[i]=lis[j]+1;
-                        nlis[i]=nlis[j];
-                    }
-                    else if(lis[i]==lis[j]+1){
-                        nlis[i]+=nlis[j];
-                    }
-                }
+                if(a[i]>a[j]) lis[i]=max(lis[i], 1+lis[j]);
             }
+            
+            int ans = 0;
+            for(int j=0; j<i; j++){
+                if(a[i]>a[j]&&lis[i]==lis[j]+1) ans+=nlis[j]; 
+            }
+            nlis[i]=max(1, ans);
             
             lis_length=max(lis_length, lis[i]);
         }
