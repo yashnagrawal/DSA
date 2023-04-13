@@ -5,49 +5,57 @@ using namespace std;
 // } Driver Code Ends
 class Solution
 {
-    #include<unordered_set>
 	public:
+	    vector<string> ans;
+	    
+	    void lexicographical_lcs_helper(string lcs, int si, int ti, int ns, int nt, string s, string t, vector<vector<int>> &dp){
+	        if(lcs.length()==dp[0][0]){
+	            ans.push_back(lcs);
+	            return;
+	        }
+	        
+	        if(si==ns||ti==nt) return;
+	        
+	        for(char ch = 'a'; ch<='z'; ch++){
+	            bool is_ch_included = 0;
+	            for(int i=si; i<ns; i++){
+    	            if(ch!=s[i]) continue;
+    	            
+    	            for(int j=ti; j<nt; j++){
+    	                
+    	                if(ch==t[j]&&(dp[i][j]+lcs.length()==dp[0][0])){
+    	                    string new_lcs = lcs+s[i];
+    	                   // cout<<"\n starting ("<<i<<", "<<j<<") "<<lcs<<s[i]<<" ";
+    	                    lexicographical_lcs_helper(new_lcs, i+1, j+1, ns, nt, s, t, dp);
+    	                   // cout<<"\n ended ("<<i<<", "<<j<<") "<<lcs<<s[i]<<" ";
+    	                    is_ch_included = 1;
+    	                }
+    	                if(is_ch_included) break;
+    	            }
+    	            if(is_ch_included) break;
+    	        }
+	        }
+	    }
 	    
 		vector<string> all_longest_common_subsequences(string s, string t)
 		{
 		    // Code here
 		    int ns = s.length(), nt = t.length();
 		    
-		    vector<vector<int>> dpl(ns+1, vector<int> (nt+1, 0));
-		    vector<unordered_set<string>> dp(nt+1);
+		    vector<vector<int>> dp_reverse(ns+1, vector<int> (nt+1, 0));
 		    
-		    for(int i=1; i<=ns; i++){
-		        vector<unordered_set<string>> temp(nt+1);
-		        for(int j=1; j<=nt; j++){
-		            if(s[i-1]==t[j-1]){
-		                dpl[i][j]=1+dpl[i-1][j-1];
-		                for(auto k: dp[j-1]){
-		                    temp[j].insert(k+s[i-1]);
-		                }
-		                if(dp[j-1].size()==0) temp[j].insert(string(1, s[i-1]));
-		            }
-		            else if(dpl[i-1][j]==dpl[i][j-1]){
-		                dpl[i][j]=dpl[i-1][j];
-		                for(auto k: dp[j]) temp[j].insert(k);
-		                for(auto k: temp[j-1]) temp[j].insert(k);
-		            }
-		            else if(dpl[i-1][j]>dpl[i][j-1]){
-		                dpl[i][j]=dpl[i-1][j];
-		                for(auto k: dp[j]) temp[j].insert(k);
-		            }
-		            else{
-		                dpl[i][j]=dpl[i][j-1];
-		                for(auto k: temp[j-1]) temp[j].insert(k);
-		            }
+		    
+		    for(int i=ns-1; i>=0; i--){
+		        for(int j=nt-1; j>=0; j--){
+		            if(s[i]==t[j]) dp_reverse[i][j]=1+dp_reverse[i+1][j+1];
+		            else dp_reverse[i][j]=max(dp_reverse[i+1][j], dp_reverse[i][j+1]);
 		        }
-		        temp.swap(dp);
 		    }
 		    
-		    vector<string> ans;
 		    
-		    for(auto j: dp[nt]) ans.push_back(j);
+		    lexicographical_lcs_helper("", 0, 0, ns, nt, s, t, dp_reverse);
 		    
-		    sort(ans.begin(), ans.end());
+		  //  ans.erase(unique(ans.begin(), ans.end()), ans.end());
 		    
 		    return ans;
 		}
