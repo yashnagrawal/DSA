@@ -20,18 +20,17 @@ class Solution
 	            bool is_ch_included = 0;
 	            for(int i=si; i<ns; i++){
     	            if(ch!=s[i]) continue;
-    	            if(is_ch_included) break;
     	            for(int j=ti; j<nt; j++){
-    	                if(is_ch_included) break;
     	                if(ch==t[j]&&(dp[i][j]+lcs.length()==dp[0][0])){
     	                    string new_lcs = lcs+s[i];
     	                   // cout<<"\n starting ("<<i<<", "<<j<<") "<<lcs<<s[i]<<" ";
     	                    lexicographical_lcs_helper(new_lcs, i+1, j+1, ns, nt, s, t, dp);
     	                   // cout<<"\n ended ("<<i<<", "<<j<<") "<<lcs<<s[i]<<" ";
     	                    is_ch_included = 1;
+    	                    break;
     	                }
-    	                
     	            }
+    	            if(is_ch_included) break;
     	        }
 	        }
 	    }
@@ -53,8 +52,6 @@ class Solution
 		    
 		    
 		    lexicographical_lcs_helper("", 0, 0, ns, nt, s, t, dp_reverse);
-		    
-		  //  ans.erase(unique(ans.begin(), ans.end()), ans.end());
 		    
 		    return ans;
 		}
