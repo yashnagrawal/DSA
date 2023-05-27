@@ -7,30 +7,12 @@ using namespace std;
 
 class Solution{
     public:
-    bool is_num_greater_than_x(int num, int x){
-        return num>x;
-    }
-    
     int searchInsertK(vector<int>arr, int n, int k)
     {
         // code here
+        auto lo = lower_bound(arr.begin(), arr.end(), k);
         
-        int lo = 0, hi = n;
-        
-        while(lo<hi){
-            int mid = lo + (hi-lo)/2;
-            
-            if(is_num_greater_than_x(arr[mid], k)){
-                hi = mid;
-            }
-            else{
-                lo = mid + 1;
-            }
-        }
-        
-        if(lo>0&&arr[lo-1]==k) return lo-1;
-        
-        return lo;
+        return lo-arr.begin();
     }
 };
 
