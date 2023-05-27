@@ -9,8 +9,6 @@ class Solution{
         // l: The starting index
         // h: The ending index, you have to search the key in this range
         
-        //complete the function here
-        
         int lo = l, hi = h;
         
         while(lo<hi){
@@ -25,7 +23,6 @@ class Solution{
         }
         
         int next_l = lo;
-        // cout<<next_l<<"\n";
         
         if(arr[l]>key){
             lo = next_l;
