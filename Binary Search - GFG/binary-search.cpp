@@ -23,7 +23,7 @@ class Solution {
         while(lo<hi){
             int mid = lo + (hi-lo)/2;
             // cout<<lo<<", "<<mid<<", "<<hi<<"\n";
-            if(is_num_greater_than_x(arr[mid], k)){
+            if(arr[mid]>=k){
                 hi = mid;
             }
             else{
@@ -31,9 +31,7 @@ class Solution {
             }
         }
         
-        // cout<<lo<<"\n";
-        
-        if(lo>0&&arr[lo-1]==k) return lo-1;
+        if(arr[lo]==k) return lo;
         return -1;
     }
 };
