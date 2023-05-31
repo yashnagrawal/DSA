@@ -8,16 +8,15 @@ class Solution{
 		vector<string> AllPossibleStrings(string s){
 		    // Code here
     		int n = (int)s.length();
-		    vector<string> ans(1<<n);
+		    vector<string> ans((1<<n)-1);
 		    
-		    for(int i=0; i<(1<<n); i++){
+		    for(int i=1; i<(1<<n); i++){
 		        for(int j=0; j<n; j++){
-		            if(i&(1<<j)) ans[i].push_back(s[j]);
+		            if(i&(1<<j)) ans[i-1].push_back(s[j]);
 		        }
 		    }
 		    
 		    sort(ans.begin(), ans.end());
-		    ans.erase(ans.begin());
 		    return ans;
 		}
 };
