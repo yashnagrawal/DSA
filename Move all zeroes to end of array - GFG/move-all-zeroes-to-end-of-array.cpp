@@ -8,15 +8,11 @@ class Solution{
 public:
 	void pushZerosToEnd(int arr[], int n) {
 	    // code here
-	    int i = 0;
 	    int j = 0;
-	    while(j<n){
-	        if(arr[j]!=0){
-	            arr[i++]=arr[j];
-	        }
-	        j++;
+	    for(int i=0; i<n; i++){
+	        if(arr[i]!=0) arr[j++]=arr[i];
 	    }
-	    while(i<n) arr[i++]=0;
+	    while(j<n) arr[j++]=0;
 	}
 };
 
