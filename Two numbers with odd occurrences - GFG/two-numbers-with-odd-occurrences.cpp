@@ -7,27 +7,41 @@ using namespace std;
 //User function Template for C++
 class Solution{
     public:
+    
+    long long int get_rightmost_bit(long long int num){
+        long long int rightmost_bit = 1;
+        
+        while(!(num&rightmost_bit)){
+            rightmost_bit=rightmost_bit<<1;
+        }
+        
+        return rightmost_bit;
+    }
+    
     vector<long long int> twoOddNum(long long int arr[], long long int n)  
     {
         // code here
-        sort(arr, arr+n);
-        vector<long long int> ans;
+        long long int xor_of_arr = 0;
         
-        for(int i=n-1; i>0; i=i-2){
-            if(arr[i]!=arr[i-1]){
-                ans.push_back(arr[i]);
-                break;
+        for(int i=0; i<n; i++){
+            xor_of_arr=xor_of_arr^arr[i];
+        }
+        
+        long long int rightmost_bit = get_rightmost_bit(xor_of_arr);
+        
+        long long int first_odd_num = 0, second_odd_num = 0;
+        
+        for(int i=0; i<n; i++){
+            if(arr[i]&rightmost_bit){
+                first_odd_num=first_odd_num^arr[i];
+            }
+            else{
+                second_odd_num=second_odd_num^arr[i];
             }
         }
         
-        for(int i=0; i<n-1; i=i+2){
-            if(arr[i]!=arr[i+1]){
-                ans.push_back(arr[i]);
-                break;
-            }
-        }
-        
-        return ans;
+        if(second_odd_num<first_odd_num) return {first_odd_num, second_odd_num};
+        return {second_odd_num, first_odd_num};
     }
 };
 
