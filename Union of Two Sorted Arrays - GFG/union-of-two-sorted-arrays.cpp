@@ -15,18 +15,31 @@ class Solution{
         //return vector with correct order of elements
         vector<int> ans;
         
-        set<int> s;
+        int i=0, j=0;
         
-        for(int i=0; i<n; i++){
-            s.insert(arr1[i]);
+        while(i<n&&j<m){
+            if(arr1[i]<arr2[j]){
+                ans.push_back(arr1[i]);
+                while(i<n&&arr1[i]==ans.back()) i++;
+            }
+            else if(arr2[j]<arr1[i]){
+                ans.push_back(arr2[j]);
+                while(j<m&&ans.back()==arr2[j]) j++;
+            }
+            else {
+                ans.push_back(arr1[i]);
+                while(i<n&&arr1[i]==ans.back()) i++;
+                while(j<m&&ans.back()==arr2[j]) j++;
+            }
         }
         
-        for(int j=0; j<m; j++){
-            s.insert(arr2[j]);
+        while(i<n){
+            if(ans.back()!=arr1[i]) ans.push_back(arr1[i]);
+            i++;
         }
-        
-        for(auto i: s){
-            ans.push_back(i);
+        while(j<m){
+            if(ans.back()!=arr2[j]) ans.push_back(arr2[j]);
+            j++;
         }
         
         return ans;
