@@ -26,13 +26,13 @@ int main()
 int missingNumber(int a[], int n)
 {
     // Your code goes here
-    long long int actual_sum = 0;
+    int xor_of_array = 0;
     
     for(int i=0; i<n-1; i++){
-        actual_sum=actual_sum+a[i];
+        xor_of_array^=(i+1);
+        xor_of_array^=a[i];
     }
+    xor_of_array^=n;
     
-    long long int req_sum = ((n)*(n+1))/2;
-    
-    return req_sum-actual_sum;
+    return xor_of_array;
 }
