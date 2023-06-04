@@ -11,14 +11,12 @@ class Solution
     void rotateby90(vector<vector<int> >& mat, int n) 
     { 
         for(int i=0; i<n/2; i++){
-            // cout<<i<<": \n";
             for(int j=i; j<n-i-1; j++){
                 int temp = mat[i][j];
                 mat[i][j]=mat[j][n-i-1];
                 mat[j][n-i-1]=mat[n-i-1][n-j-1];
                 mat[n-i-1][n-j-1]=mat[n-j-1][i];
                 mat[n-j-1][i]=temp;
-                // cout<<"("<<i<<","<<j<<") ("<<j<<","<<n-i-1<<") ("<<n-i-1<<", "<<n-j-1<<") ("<<n-j-1<<", "<<i<<")\n";
             }
         }
     } 
