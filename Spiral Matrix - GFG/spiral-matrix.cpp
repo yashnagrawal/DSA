@@ -22,19 +22,19 @@ class Solution{
             for(int j=left; j<=right; j++){
                 if((++count)==k) return a[top][j];
             }
-            for(int i=top+1; i<=bottom; i++){
+            top++;
+            for(int i=top; i<=bottom; i++){
                 if((++count)==k) return a[i][right];
             }
-            for(int j=right-1; j>=left; j--){
+            right--;
+            for(int j=right; j>=left; j--){
                 if((++count)==k) return a[bottom][j];
             }
-            for(int i=bottom-1; i>top; i--){
+            bottom--;
+            for(int i=bottom; i>=top; i--){
                 if((++count)==k) return a[i][left];
             }
-            top++;
             left++;
-            bottom--;
-            right--;
         }
         
         
