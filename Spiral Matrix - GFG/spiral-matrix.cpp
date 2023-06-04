@@ -9,6 +9,8 @@ class Solution{
 	int findK(vector<vector<int>> &a, int n, int m, int k)
     {
         // Your code goes here
+        
+        if(k>(m*n)) return -1;
         int top = 0;
         int bottom = n-1;
         int left = 0;
@@ -16,10 +18,7 @@ class Solution{
         
         int count = 0;
         
-        vector<int> order;
-        
         while(left<=right&&top<=bottom){
-            // cout<<top<<" "<<right<<" "<<bottom<<" "<<left<<": ";
             for(int j=left; j<=right; j++){
                 if((++count)==k) return a[top][j];
             }
