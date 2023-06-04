@@ -8,20 +8,26 @@ class Solution{
 public:
 	int rowWithMax1s(vector<vector<int> > arr, int n, int m) {
 	    // code here
-	    int max_no_of_ones = 0;
-	    int ans_index = -1;
+	    int first_one = m;
+	    int ans_index = 0;
 	    
 	    for(int i=0; i<n; i++){
-	        int no_of_ones = 0;
-	        for(auto j: arr[i]){
-	            no_of_ones+=j;
+	        int lo = 0;
+	        int hi = m;
+	        
+	        while(lo<hi){
+	            int mid = lo + (hi-lo)/2;
+	            if(arr[i][mid]==1) hi = mid;
+	            else lo = mid + 1;
 	        }
-	        if(no_of_ones>max_no_of_ones){
-	            max_no_of_ones = no_of_ones;
+	        
+	        if(lo<first_one){
+	            first_one = lo;
 	            ans_index = i;
 	        }
 	    }
 	    
+	    if(first_one==m) return -1;
 	    return ans_index;
 	}
 
