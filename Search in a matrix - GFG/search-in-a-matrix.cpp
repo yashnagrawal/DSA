@@ -11,11 +11,19 @@ public:
 	int matSearch (vector <vector <int>> &mat, int n, int m, int x)
 	{
 	    // your code here
-	    for(int i=0; i<n; i++){
-	        for(int j=0; j<m; j++){
-	            if(mat[i][j]==x) return 1;
-	        }
+	    
+	    if(mat[0][0]>x||mat[n-1][m-1]<x) return 0;
+	    
+	    int row = 0;
+	    int col = m-1;
+	    
+	    while(row<n&&col<m){
+	       // cout<<"row: "<<row<<", col: "<<col<<"\n";
+	        if(mat[row][col]==x) return 1;
+	        else if(x>mat[row][col]) row++;
+	        else col--;
 	    }
+	    
 	    
 	    return 0;
 	}
