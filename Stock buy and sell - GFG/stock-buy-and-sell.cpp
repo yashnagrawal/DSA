@@ -1,79 +1,57 @@
 //{ Driver Code Starts
-//Initial template for C++
-
+// Program to find best buying and selling days
 #include <bits/stdc++.h>
+
 using namespace std;
 
+// This function finds the buy sell schedule for maximum profit
+void stockBuySell(int *, int);
 
-// } Driver Code Ends
-//User function template for C++
+// Driver program to test above functions
+int main() {
+    int T;
+    cin >> T;
 
-class Solution{
-public:
-    //Function to find the days of buying and selling stock for max profit.
-    vector<vector<int> > stockBuySell(vector<int> a, int n){
-        // code here
-        int i = 0;
-        int j = 1;
-        vector<vector<int>> ans;
-        
-        while(i<n&&j<n){
-            if(a[j-1]<a[j]) j++;
-            else{
-                if(i!=j-1) ans.push_back({i, j-1});
-                i=j++;
-            }
-        }
-        
-        if(i!=j-1) ans.push_back({i, j-1});
-        
-        // for(auto row: ans){
-        //     for(auto cell: row) cout<<cell<<" ";
-        //     cout<<"\n";
-        // }
-        
-        return ans;
-    }
-};
-
-//{ Driver Code Starts.
-
-int check(vector<vector<int>> ans, vector<int> A, int p)
-{
-    int c = 0;
-    for(int i=0; i<ans.size(); i++)
-        c += A[ans[i][1]]-A[ans[i][0]];
-    return (c==p) ? 1 : 0;
-}
-
-int main()
-{   
-    int t;
-    cin>>t;
-    while(t--){
-        int n;
-        cin>>n;
-        vector<int> A(n);
-        for (int i=0; i<n; ++i){
-            cin>>A[i];
-        }
-        Solution ob;
-        vector<vector<int> > ans = ob.stockBuySell(A, n);
-        int p = 0;
-        for(int i=0; i<n-1; i++)
-        {
-            int x = A[i+1]-A[i];
-            if(x>0)
-                p += x;
-        }
-        if(ans.size()==0)
-            cout<<"No Profit";
-        else{
-            cout<<check(ans,A,p);
-        }cout<<endl;
+    while (T--) {
+        int n, i;
+        cin >> n;
+        int price[n];
+        for (i = 0; i < n; i++) cin >> price[i];
+        // function call
+        stockBuySell(price, n);
     }
     return 0;
 }
 
-
 // } Driver Code Ends
+
+
+// User function template for C++
+
+// This function finds the buy sell schedule for maximum profit
+void stockBuySell(int price[], int n) {
+    // code here
+    int buy = 0;
+    int sell = 0;
+    bool isProfit = 0;
+    for(int i=1; i<n; i++){
+        if(price[i]>price[i-1]){
+            sell = i;
+        }
+        else if(price[i]<price[i-1]){
+            if(buy<sell){
+                cout<<"("<<buy<<" "<<sell<<") ";
+                isProfit=1;
+            }
+            buy = i;
+        }
+    }
+    
+    if(buy!=n-1){
+        cout<<"("<<buy<<" "<<sell<<") ";
+        isProfit=1;
+    }
+    
+    if(!isProfit) cout<<"No Profit";
+    cout<<"\n";
+}
