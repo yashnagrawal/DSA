@@ -14,27 +14,24 @@ class Solution{
     {
       //Your code here
       
-      set<int> s;
-      
-      for(int i=0; i<n; i++) s.insert(arr[i]);
-      
-      int curr = 1;
       int ans = 1;
+      unordered_set<int> s;
       
-      vector<int> a;
+      for(int i=0; i<n; i++){
+          s.insert(arr[i]);
+      }
       
-      for(auto i: s) a.push_back(i);
-      
-      int na = a.size();
-      
-      for(int i=1; i<na; i++){
-          if(a[i]-a[i-1]==1){
-              curr++;
-              ans=max(ans, curr);
-          }
-          else{
-              ans=max(ans, curr);
-              curr=1;
+      for(auto i: s){
+          if(s.find(i-1)==s.end()){
+              int count = 1;
+              int curr = i;
+              
+              while(s.find(curr+1)!=s.end()){
+                  count++;
+                  curr++;
+              }
+              
+              ans=max(ans, count);
           }
       }
       
