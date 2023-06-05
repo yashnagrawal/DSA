@@ -8,10 +8,27 @@ using namespace std;
 class Solution
 {
     public:
+    void swap(int a[], int i, int j){
+        int temp = a[i];
+        a[i]=a[j];
+        a[j]=temp;
+    }
+    
     void sort012(int a[], int n)
     {
         // code here 
-        sort(a, a+n);
+        int i0 = 0;
+        int i2 = n-1;
+        
+        
+        for(int i=0; i<=i2; i++){
+            if(a[i]==0){
+                if(i>i0) swap(a, i--, i0++);
+            }
+            else if(a[i]==2){
+                if(i<i2) swap(a, i--, i2--);
+            }
+        }
     }
     
 };
