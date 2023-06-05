@@ -12,37 +12,24 @@ class Solution{
     {
         // Your code goes here
         long long ans = INT_MIN;
-        stack<long long> s;
+        stack<long long> s1, s2;
         
         vector<long long> next_smallest_ind(n, INT_MIN), prev_smallest_ind(n, INT_MIN);
         
         for(int i=n-1; i>=0; i--){
-            while((!s.empty())&&(arr[i]<arr[s.top()])) s.pop();
+            while((!s1.empty())&&(arr[i]<arr[s1.top()])) s1.pop();
             
-            if(!s.empty()) next_smallest_ind[i]=s.top();
-            s.push(i);
+            if(!s1.empty()) next_smallest_ind[i]=s1.top();
+            s1.push(i);
         }
-        
-        while(!s.empty()) s.pop();
         
         for(int i=0; i<n; i++){
-            while((!s.empty())&&(arr[i]<arr[s.top()])) s.pop();
+            while((!s2.empty())&&(arr[i]<arr[s2.top()])) s2.pop();
             
-            if(!s.empty()) prev_smallest_ind[i]=s.top();
-            s.push(i);
+            if(!s2.empty()) prev_smallest_ind[i]=s2.top();
+            s2.push(i);
         }
         
-        // for(auto i: prev_smallest_ind){
-        //     if(i!=INT_MIN) cout<<arr[i]<<" ";
-        //     else cout<<"na ";
-        // }
-        // cout<<"\n";
-        
-        // for(auto i: next_smallest_ind){
-        //     if(i!=INT_MIN) cout<<arr[i]<<" ";
-        //     else cout<<"na ";
-        // }
-        // cout<<"\n";
         
         for(int i=0; i<n; i++){
             long long min1 = INT_MIN;
