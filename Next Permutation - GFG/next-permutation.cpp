@@ -11,25 +11,24 @@ class Solution{
 public:
     vector<int> nextPermutation(int n, vector<int> arr){
         // code here
-        
-        bool isLast = 1;
-        
-        for(int i=n-2; i>=0; i--){
-            if(arr[i]<arr[i+1]){
-                isLast = 0;
-                sort(arr.begin()+i+1, arr.end());
-                int swap_ind = (upper_bound(arr.begin()+i+1, arr.end(), arr[i]))-arr.begin();
-                // cout<<"swap_ind: "<<swap_ind<<"\n";
-                int temp = arr[i];
-                arr[i]=arr[swap_ind];
-                arr[swap_ind]=temp;
-                break;
-            }
-        }
-        
-        if(isLast) sort(arr.begin(), arr.end());
-        
-        return arr;
+       
+       bool isLast = 1;
+       
+       for(int i=n-2; i>=0; i--){
+           if(arr[i]<arr[i+1]){
+               isLast = 0;
+               reverse(arr.begin()+i+1, arr.end());
+               auto it = upper_bound(arr.begin()+i+1, arr.end(), arr[i]);
+               int temp = arr[i];
+               arr[i]=*it;
+               *it = temp;
+               break;
+           }
+       }
+       
+       if(isLast) reverse(arr.begin(), arr.end());
+       
+       return arr;
     }
 };
 
