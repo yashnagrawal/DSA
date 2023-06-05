@@ -17,8 +17,9 @@ class Solution{
         long long curr_sum = 0;
         
         for(int i=0; i<n; i++){
-            curr_sum=max(curr_sum, 0ll)+arr[i];
+            curr_sum+=arr[i];
             ans=max(ans, curr_sum);
+            curr_sum=max(curr_sum, 0ll);
         }
         
         return ans;
