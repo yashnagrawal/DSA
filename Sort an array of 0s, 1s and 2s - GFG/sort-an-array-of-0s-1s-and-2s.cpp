@@ -17,16 +17,24 @@ class Solution
     void sort012(int a[], int n)
     {
         // code here 
-        int i0 = 0;
-        int i2 = n-1;
+        int lo = 0;
+        int mid = 0;
+        int hi = n-1;
         
+        // [0, lo-1]   0
+        // [lo, mid-1] 1
+        // [mid, hi] unsorted
+        // [hi+1, n-1] 2
         
-        for(int i=0; i<=i2; i++){
-            if(a[i]==0){
-                if(i>i0) swap(a, i--, i0++);
+        while(mid<=hi){
+            if(a[mid]==0){
+                swap(a, lo++, mid++);
             }
-            else if(a[i]==2){
-                if(i<i2) swap(a, i--, i2--);
+            else if(a[mid]==1){
+                mid++;
+            }
+            else if(a[mid]==2){
+                swap(a, mid, hi--);
             }
         }
     }
