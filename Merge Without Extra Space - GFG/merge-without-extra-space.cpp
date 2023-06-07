@@ -28,8 +28,6 @@ class Solution{
             
             while(i+j<n) i++;
             
-            // cout<<i<<", "<<j<<"\n";
-            
             while(i<n){
                 swap(arr1, arr2, i++, --j);
             }
