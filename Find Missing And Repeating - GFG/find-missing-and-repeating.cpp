@@ -12,31 +12,14 @@ public:
         
         int a=0, b=0;
         
-        int xor_of_arr = 0;
-        
-        for(auto i: arr) xor_of_arr^=i;
-        
-        for(int i=1; i<=n; i++) xor_of_arr^=i;
-        
-        int right_most_bit_num = xor_of_arr&~(xor_of_arr-1);
-        
-        // cout<<xor_of_arr<<" "<<right_most_bit_num<<"\n";
-        
-        for(int i=1; i<=n; i++){
-            if(i&right_most_bit_num) a^=i;
-            else b^=i;
+        for(int i=0; i<n; i++){
+            int x = abs(arr[i]);
             
-            if(arr[i-1]&right_most_bit_num) a^=arr[i-1];
-            else b^=arr[i-1];
+            if(arr[x-1]<0) b = x;
+            else arr[x-1]=-arr[x-1];
         }
         
-        int b_freq = 0;
-        
-        for(auto i: arr){
-            if(i==b) b_freq++;
-        }
-        
-        if(b_freq==0) swap(a, b);
+        for(int i=0; i<n; i++) if(arr[i]>0) a = i+1;
         
         return {b, a};
     }
