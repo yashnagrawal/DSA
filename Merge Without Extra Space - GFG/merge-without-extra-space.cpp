@@ -7,20 +7,37 @@ using namespace std;
 class Solution{
     public:
         //Function to merge the arrays.
+        
+        void swap(long long arr1[], long long arr2[], int i, int j){
+            long long temp = arr1[i];
+            arr1[i]=arr2[j];
+            arr2[j]=temp;
+        }
+        
         void merge(long long arr1[], long long arr2[], int n, int m) 
         { 
             // code here 
-            vector<long long> sorted(n+m);
+
+            int i = 0;
+            int j = 0;
             
-            for(int i=0; i<n; i++) sorted[i] = arr1[i];
+            while(i+j<n&&i<n&&j<m){
+                if(arr1[i]<=arr2[j]) i++;
+                else j++;
+            }
             
-            for(int i=0; i<m; i++) sorted[i+n] = arr2[i];
+            while(i+j<n) i++;
             
-            sort(sorted.begin(), sorted.end());
+            // cout<<i<<", "<<j<<"\n";
             
-            for(int i=0; i<n; i++) arr1[i]=sorted[i];
+            while(i<n){
+                swap(arr1, arr2, i++, --j);
+            }
             
-            for(int i=n; i<n+m; i++) arr2[i-n]=sorted[i];
+            sort(arr1, arr1+n);
+            sort(arr2, arr2+m);
+            
+            
         } 
 };
 
