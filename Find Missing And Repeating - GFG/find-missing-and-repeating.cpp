@@ -25,11 +25,9 @@ public:
         for(int i=1; i<=n; i++){
             if(i&right_most_bit_num) a^=i;
             else b^=i;
-        }
-        
-        for(auto i: arr){
-            if(i&right_most_bit_num) a^=i;
-            else b^=i;
+            
+            if(arr[i-1]&right_most_bit_num) a^=arr[i-1];
+            else b^=arr[i-1];
         }
         
         int b_freq = 0;
