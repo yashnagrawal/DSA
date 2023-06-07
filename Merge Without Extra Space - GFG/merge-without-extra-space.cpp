@@ -18,24 +18,16 @@ class Solution{
         { 
             // code here 
 
-            int i = 0;
-            int j = 0;
+            int arr1_last = n-1;
+            int arr2_first = 0;
             
-            while(i+j<n&&i<n&&j<m){
-                if(arr1[i]<=arr2[j]) i++;
-                else j++;
-            }
-            
-            while(i+j<n) i++;
-            
-            while(i<n){
-                swap(arr1, arr2, i++, --j);
+            while(arr1_last>=0&&arr2_first<m){
+                if(arr1[arr1_last]<=arr2[arr2_first]) break;
+                else swap(arr1, arr2, arr1_last--, arr2_first++);
             }
             
             sort(arr1, arr1+n);
             sort(arr2, arr2+m);
-            
-            
         } 
 };
 
