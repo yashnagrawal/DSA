@@ -8,12 +8,6 @@ class Solution{
     public:
         //Function to merge the arrays.
         
-        void swap(long long arr1[], long long arr2[], int i, int j){
-            long long temp = arr1[i];
-            arr1[i]=arr2[j];
-            arr2[j]=temp;
-        }
-        
         void merge(long long arr1[], long long arr2[], int n, int m) 
         { 
             // code here 
@@ -21,9 +15,11 @@ class Solution{
             int arr1_last = n-1;
             int arr2_first = 0;
             
+            // if last of arr1 is greater than first of arr2 then their arrays need to be changed
+            
             while(arr1_last>=0&&arr2_first<m){
                 if(arr1[arr1_last]<=arr2[arr2_first]) break;
-                else swap(arr1, arr2, arr1_last--, arr2_first++);
+                else swap(arr1[arr1_last--], arr2[arr2_first++]);
             }
             
             sort(arr1, arr1+n);
