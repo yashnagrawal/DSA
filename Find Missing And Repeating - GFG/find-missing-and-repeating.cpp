@@ -6,24 +6,39 @@ using namespace std;
 // } Driver Code Ends
 class Solution{
 public:
-    vector<int> findTwoElement(vector<int> arr, long long int n) {
+    
+    vector<int> findTwoElement(vector<int> arr, int n) {
         // code here
         
-        long long int a, b;
+        int a=0, b=0;
         
-        long long int sum = 0, square_sum = 0;
-        long long int ideal_sum = (((n)*(n+1))/2ll), ideal_square_sum = (((n)*(n+1)*(2ll*n+1))/6ll);
+        int xor_of_arr = 0;
         
-        for(auto i: arr){
-            sum+=(long long int)i;
-            square_sum+=((long long int)i*(long long int)i);
+        for(auto i: arr) xor_of_arr^=i;
+        
+        for(int i=1; i<=n; i++) xor_of_arr^=i;
+        
+        int right_most_bit_num = xor_of_arr&~(xor_of_arr-1);
+        
+        // cout<<xor_of_arr<<" "<<right_most_bit_num<<"\n";
+        
+        for(int i=1; i<=n; i++){
+            if(i&right_most_bit_num) a^=i;
+            else b^=i;
         }
         
-        long long int diff_of_nums = ideal_sum - sum;
-        long long int sum_of_nums = (ideal_square_sum-square_sum)/diff_of_nums;
+        for(auto i: arr){
+            if(i&right_most_bit_num) a^=i;
+            else b^=i;
+        }
         
-        a = (sum_of_nums + diff_of_nums)/2;
-        b = (sum_of_nums - diff_of_nums)/2;
+        int b_freq = 0;
+        
+        for(auto i: arr){
+            if(i==b) b_freq++;
+        }
+        
+        if(b_freq==0) swap(a, b);
         
         return {b, a};
     }
