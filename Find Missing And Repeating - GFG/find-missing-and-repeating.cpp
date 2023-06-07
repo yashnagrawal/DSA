@@ -6,18 +6,24 @@ using namespace std;
 // } Driver Code Ends
 class Solution{
 public:
-    vector<int> findTwoElement(vector<int> arr, int n) {
+    vector<int> findTwoElement(vector<int> arr, long long int n) {
         // code here
-        unordered_map<int, int> freq;
         
-        int a, b;
+        long long int a, b;
         
-        for(auto i: arr) freq[i]++;
+        long long int sum = 0, square_sum = 0;
+        long long int ideal_sum = (((n)*(n+1))/2ll), ideal_square_sum = (((n)*(n+1)*(2ll*n+1))/6ll);
         
-        for(int i=1; i<=n; i++){
-            if(freq[i]==0) a = i;
-            if(freq[i]==2) b = i;
+        for(auto i: arr){
+            sum+=(long long int)i;
+            square_sum+=((long long int)i*(long long int)i);
         }
+        
+        long long int diff_of_nums = ideal_sum - sum;
+        long long int sum_of_nums = (ideal_square_sum-square_sum)/diff_of_nums;
+        
+        a = (sum_of_nums + diff_of_nums)/2;
+        b = (sum_of_nums - diff_of_nums)/2;
         
         return {b, a};
     }
