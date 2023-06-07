@@ -10,38 +10,37 @@ class Solution{
     public:
     // arr[] : int input array of integers
     // k : the quadruple sum required
-    vector<vector<int> > fourSum(vector<int> &arr, int k) {
+    vector<vector<int> > fourSum(vector<int> &nums, int target) {
         // Your code goes here
         
-        sort(arr.begin(), arr.end());
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
         vector<vector<int>> ans;
-        set<vector<int>> s;
-        int n = arr.size();
-        
+
         for(int i=0; i<n; i++){
+            if(i>0&&nums[i]==nums[i-1]) continue;
+
             for(int j=i+1; j<n; j++){
-                int st = 0;
-                int ed = n-1;
+                if(j>i+1&&nums[j]==nums[j-1]) continue;
                 
-                while(st<i&&j<ed){
-                    int curr_sum = arr[st]+arr[i]+arr[j]+arr[ed];
-                    
-                    if(curr_sum==k){
-                        // cout<<st<<", "<<i<<", "<<j<<", "<<ed<<"\n";
-                        s.insert({arr[st], arr[i], arr[j], arr[ed]});
+                int st = j+1;
+                int ed = n-1;
+
+                while(st<ed){
+                    long long int curr_sum = (long long int)nums[i]+nums[j]+nums[st]+nums[ed];
+                    if(curr_sum>target) ed--;
+                    else if(curr_sum<target) st++;
+                    else{
+                        ans.push_back({nums[i], nums[j], nums[st], nums[ed]});
                         st++;
                         ed--;
+                        while(st<ed&&nums[st]==nums[st-1]) st++;
+                        while(st<ed&&nums[ed]==nums[ed+1]) ed--;
                     }
-                    
-                    else if(curr_sum>k) ed--;
-                    
-                    else st++;
                 }
             }
         }
-        
-        for(auto i: s) ans.push_back(i);
-        
+
         return ans;
     }
 };
