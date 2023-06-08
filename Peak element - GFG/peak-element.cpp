@@ -21,7 +21,7 @@ class Solution
        while(lo<hi){
            int mid = lo + (hi-lo)/2;
            
-           if(mid==n-1||(arr[mid]>=arr[mid+1])) hi = mid;
+           if(arr[mid]>=arr[mid+1]) hi = mid;
            else lo = mid + 1;
        }
        
