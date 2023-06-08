@@ -7,13 +7,19 @@ class Solution{
 public:
     int findMin(int arr[], int n){
         //complete the function here
-        int mini = INT_MAX;
+        if(arr[0]<arr[n-1]) return arr[0];
         
-        for(int i=0; i<n; i++){
-            mini = min(mini, arr[i]);
+        int lo = 0;
+        int hi = n-1;
+        
+        while(lo<hi){
+            int mid = lo + (hi-lo)/2;
+            
+            if(arr[mid]<arr[0]) hi = mid;
+            else lo = mid + 1;
         }
         
-        return mini;
+        return arr[lo];
     }
 };
 
