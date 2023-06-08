@@ -5,47 +5,45 @@ using namespace std;
 // } Driver Code Ends
 class Solution{
     public:
+    int find_partition(int arr[], int l, int h){
+        int lo = l;
+        int hi = h;
+        
+        while(lo<hi){
+            int mid = lo + (hi-lo)/2;
+            
+            if(arr[mid]<arr[l]) hi = mid;
+            else lo = mid + 1;
+        }
+        
+        return lo;
+    }
     int search(int arr[], int l, int h, int key){
         // l: The starting index
         // h: The ending index, you have to search the key in this range
         
-        int lo = l, hi = h;
+        //complete the function here
         
-        while(lo<hi){
-            int mid = lo + (hi-lo)/2;
-            
-            if(arr[hi]>arr[mid]){
-                hi = mid;
-            }
-            else{
-                lo = mid + 1;
-            }
-        }
+        int part = find_partition(arr, l, h);
         
-        int next_l = lo;
+        int lo = l;
+        int hi = part-1;
         
-        if(arr[l]>key){
-            lo = next_l;
+        if(arr[part]<=key&&key<=arr[h]){
+            lo = part;
             hi = h;
         }
-        else{
-            lo = l;
-            hi = next_l-1;
-        }
         
         while(lo<hi){
             int mid = lo + (hi-lo)/2;
             
-            if(arr[mid]>=key){
-                hi = mid;
-            }
-            else{
-                lo = mid + 1;
-            }
+            if(arr[mid]>=key) hi = mid;
+            else lo = mid+1;
         }
         
         if(arr[lo]==key) return lo;
         return -1;
+        
     }
 };
 
