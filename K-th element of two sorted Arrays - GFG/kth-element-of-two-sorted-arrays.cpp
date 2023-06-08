@@ -13,7 +13,6 @@ class Solution{
         int i=0;
         int j=0;
         
-        int counter = 0;
         int curr_element = INT_MIN;
         
         while((i<n||j<m)&&(i+j<k)){
