@@ -12,13 +12,19 @@ class Solution
     int findOnce(int arr[], int n)
     {
         //code here.
-        int xor_of_arr = 0;
+        int lo = 0;
+        int hi = n-1;
         
-        for(int i=0; i<n; i++){
-            xor_of_arr^=arr[i];
+        while(lo<hi){
+            int mid = lo + (hi-lo)/2;
+            
+            int same_element = (mid%2)?arr[mid-1]:arr[mid+1];
+            
+            if(same_element != arr[mid]) hi = mid;
+            else lo = mid + 1;
         }
         
-        return xor_of_arr;
+        return arr[lo];
     }
 };
 
