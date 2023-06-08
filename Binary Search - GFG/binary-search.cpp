@@ -17,7 +17,7 @@ class Solution {
     int binarysearch(int arr[], int n, int k) {
         // code here
         if(arr[n-1]<k||arr[0]>k) return -1;
-        int lo = 0, hi = n;
+        int lo = 0, hi = n-1;
         
         
         while(lo<hi){
