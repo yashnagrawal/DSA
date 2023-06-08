@@ -22,7 +22,6 @@ class Solution
            int mid = lo + (hi-lo)/2;
            
            if(mid==n-1||(arr[mid]>=arr[mid+1])) hi = mid;
-           else if(mid==0||(arr[mid-1]<=arr[mid])) lo = mid + 1;
            else lo = mid + 1;
        }
        
