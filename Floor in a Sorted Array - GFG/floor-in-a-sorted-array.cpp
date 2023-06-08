@@ -9,9 +9,6 @@ class Solution{
     // Function to find floor of x
     // n: size of vector
     // x: element whose floor is to find
-    bool is_num_greater_than_x(long long num, long long x){
-        return num>x;
-    }
     
     int findFloor(vector<long long> arr, long long n, long long x){
         
@@ -19,12 +16,12 @@ class Solution{
         
         if(arr[0]>x) return -1;
         
-        long long lo = 0, hi = n;
+        long long lo = 0, hi = n-1;
         
         while(lo<hi){
             int mid = lo + (hi-lo)/2;
             
-            if(is_num_greater_than_x(arr[mid], x)){
+            if(arr[mid]>x){
                 hi = mid;
             }
             else{
@@ -32,7 +29,8 @@ class Solution{
             }
         }
         
-        return lo-1;
+        if(arr[lo]>x) return lo-1;
+        return n-1;
         
     }
 };
