@@ -16,7 +16,7 @@ class Solution
     {
        // Your code here
        int lo = 0;
-       int hi = n;
+       int hi = n-1;
        
        while(lo<hi){
            int mid = lo + (hi-lo)/2;
