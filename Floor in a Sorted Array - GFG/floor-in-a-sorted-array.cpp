@@ -16,7 +16,7 @@ class Solution{
         
         if(arr[0]>x) return -1;
         
-        long long lo = 0, hi = n-1;
+        long long lo = 0, hi = n;
         
         while(lo<hi){
             int mid = lo + (hi-lo)/2;
@@ -29,8 +29,7 @@ class Solution{
             }
         }
         
-        if(arr[lo]>x) return lo-1;
-        return n-1;
+        return lo-1;
         
     }
 };
