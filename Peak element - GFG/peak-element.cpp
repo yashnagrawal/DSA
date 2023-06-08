@@ -15,24 +15,15 @@ class Solution
     int peakElement(int arr[], int n)
     {
        // Your code here
-       int lo = 0, hi = n;
+       int lo = 0;
+       int hi = n;
        
        while(lo<hi){
            int mid = lo + (hi-lo)/2;
-        //   cout<<lo<<", "<<mid<<", "<<hi;
            
-           // 0  1  2  3 4 5 6 7  8  9 10 11 12
-           // 9 14 10 10 1 2 1 7 10 10 14 19  9
-           
-           if(mid+1<n&&arr[mid]<arr[mid+1]){
-               lo = mid+1;
-           }
-           else if(mid-1>=0&&arr[mid]<arr[mid-1]){
-               hi = mid - 1;
-           }
-           else{
-               hi = mid;
-           }
+           if(mid==n-1||(arr[mid]>=arr[mid+1])) hi = mid;
+           else if(mid==0||(arr[mid-1]<=arr[mid])) lo = mid + 1;
+           else lo = mid + 1;
        }
        
        return lo;
