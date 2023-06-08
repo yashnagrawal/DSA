@@ -14,8 +14,6 @@ class Solution{
         
         // Your code here
         
-        if(arr[0]>x) return -1;
-        
         long long lo = 0, hi = n;
         
         while(lo<hi){
