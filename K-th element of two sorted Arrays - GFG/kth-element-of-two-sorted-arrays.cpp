@@ -8,8 +8,6 @@ class Solution{
     public:
     int kthElement(int arr1[], int arr2[], int n, int m, int k)
     {
-        vector<int> sorted;
-        
         int i=0;
         int j=0;
         
