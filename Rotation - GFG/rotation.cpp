@@ -10,7 +10,7 @@ class Solution{
 public:	
 	int findKRotation(int arr[], int n) {
 	    // code here
-	    if(arr[0]<=arr[n-1]) return 0;
+	    if(arr[0]<arr[n-1]) return 0;
 	    
 	    int lo = 0;
 	    int hi = n-1;
