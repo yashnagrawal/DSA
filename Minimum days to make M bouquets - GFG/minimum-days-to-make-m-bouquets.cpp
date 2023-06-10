@@ -7,21 +7,15 @@ class Solution {
   public:
     bool isBouquetPossible(vector<int> &bloomDay, int m, int k, int n, int day){
         int max_bouquets_possible = 0;
-        
-        int st = 0;
-        int ed = 0;
-        
-        while(ed<n){
-            if(bloomDay[ed]<=day) ed++;
-            else{
-                max_bouquets_possible+=((ed-st)/k);
-                st = ++ed;
+        int last_blossom_ind = 0;
+        for(int i=0; i<n; i++){
+            if(bloomDay[i]>day){
+                max_bouquets_possible+=((i-last_blossom_ind)/k);
+                last_blossom_ind=i+1;
             }
         }
         
-        if(bloomDay[n-1]<=day) max_bouquets_possible+=((ed-st)/k);
-        
-        // cout<<day<<": "<<max_bouquets_possible<<"\n";
+        if(bloomDay[n-1]<=day) max_bouquets_possible+=((n-last_blossom_ind)/k);
         
         return max_bouquets_possible>=m;
     }
