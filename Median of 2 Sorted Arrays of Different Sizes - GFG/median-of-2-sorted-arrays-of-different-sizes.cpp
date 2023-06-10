@@ -37,15 +37,15 @@ class Solution{
         int n1 = a1.size(), n2 = a2.size();
         int limit = (n1+n2)/2;
         
-        double element = element_with_x_numbers_on_right(a1, a2, n1, n2, limit);
+        double median = element_with_x_numbers_on_right(a1, a2, n1, n2, limit);
         
-        if((n1+n2)%2) return element;
+        if((n1+n2)%2) return median;
         
-        element+=element_with_x_numbers_on_right(a1, a2, n1, n2, --limit);
+        median+=element_with_x_numbers_on_right(a1, a2, n1, n2, --limit);
         
-        element/=2;
+        median/=2;
         
-        return element;
+        return median;
     }
 };
 
