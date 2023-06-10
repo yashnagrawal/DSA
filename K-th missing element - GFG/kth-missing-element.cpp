@@ -32,16 +32,15 @@ int KthMissingElement(int a[], int n, int k)
 {
     // Complete the function
     
-    vector<int> missing_elements;
-    unordered_set<int> s;
+    int num_of_missing_elements = 0;
+    unordered_set<int> nums_present;
     
-    for(int i=0; i<n; i++) s.insert(a[i]);
+    for(int i=0; i<n; i++) nums_present.insert(a[i]);
     
     for(int num=a[0]; num<=a[n-1]; num++){
-        if(s.find(num)==s.end()) missing_elements.push_back(num);
+        if(nums_present.find(num)==nums_present.end()) num_of_missing_elements++;
+        if(num_of_missing_elements==k) return num;
     }
     
-    if(missing_elements.size()<k) return -1;
-    
-    return missing_elements[k-1];
+    return -1;
 }
