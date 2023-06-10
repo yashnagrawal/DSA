@@ -31,7 +31,8 @@ int main()
 int KthMissingElement(int a[], int n, int k)
 {
     // Complete the function
-    if(a[n-1]-a[0]-n+1<k) return -1;
+    int num_of_missing_elements = (a[n-1]-a[0]+1)-(n-1-0+1);
+    if(num_of_missing_elements<k) return -1;
     
     int lo = 0;
     int hi = n-1;
@@ -39,7 +40,7 @@ int KthMissingElement(int a[], int n, int k)
     while(lo<hi){
         int mid = lo + (hi-lo)/2;
         
-        int num_of_missing_elements = (a[mid]-a[0]+1)-(mid-0+1);
+        num_of_missing_elements = (a[mid]-a[0]+1)-(mid-0+1);
         
         if(num_of_missing_elements>=k) hi = mid;
         else lo = mid + 1;
@@ -47,7 +48,7 @@ int KthMissingElement(int a[], int n, int k)
     
     lo--;
     
-    int num_of_missing_elements = (a[lo]-a[0]+1)-(lo-0+1);
+    num_of_missing_elements = (a[lo]-a[0]+1)-(lo-0+1);
     
     return a[lo]+(k-num_of_missing_elements);
 }
