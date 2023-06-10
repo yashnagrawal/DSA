@@ -38,10 +38,12 @@ long long int maxSumWithK(long long int a[], long long int n, long long int k)
     for(int i=0; i<n; i++){
         curr_prefix+=a[i];
         
-        if(i-(k-1)>=0){
-            ans=max(ans, curr_prefix-min_prefix);
-            last_prefix+=a[i-(k-1)];
+        
+        if(i==k-1) ans=max(ans, curr_prefix);
+        if((i-k)>=0){
+            last_prefix+=a[i-k];
             min_prefix=min(min_prefix, last_prefix);
+            ans=max(ans, curr_prefix-min_prefix);
         }
     }
     
