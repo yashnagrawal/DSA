@@ -31,24 +31,26 @@ int main()
 int KthMissingElement(int a[], int n, int k)
 {
     // Complete the function
-    int num_of_missing_elements = (a[n-1]-a[0]+1)-(n-1-0+1);
-    if(num_of_missing_elements<k) return -1;
     
-    int lo = 0;
-    int hi = n-1;
-    
-    while(lo<hi){
-        int mid = lo + (hi-lo)/2;
+    for(int i=1; i<n; i++){
+        int elements_required = a[i]-a[0]+1;
+        int elements_present = i-0+1;
         
-        num_of_missing_elements = (a[mid]-a[0]+1)-(mid-0+1);
+        int missing_elements = elements_required - elements_present;
         
-        if(num_of_missing_elements>=k) hi = mid;
-        else lo = mid + 1;
+        if(missing_elements>=k){
+            unordered_set<int> s;
+            
+            for(int j=0; j<i; j++) s.insert(a[j]);
+            
+            int curr_missing_elements_count = 0;
+            
+            for(int l=a[0]; l<a[i]; l++){
+                if(s.find(l)==s.end()) curr_missing_elements_count++;
+                if(curr_missing_elements_count==k) return l;
+            }
+        }
     }
     
-    lo--;
-    
-    num_of_missing_elements = (a[lo]-a[0]+1)-(lo-0+1);
-    
-    return a[lo]+(k-num_of_missing_elements);
+    return -1;
 }
