@@ -33,8 +33,13 @@ class Solution
     {
         //code here
         if(m>n) return -1;
-        int lo = 0;
-        int hi = INT_MAX;
+        int lo = INT_MAX;
+        int hi = 0;
+        
+        for(int i=0; i<n; i++){
+            hi+=arr[i];
+            lo=min(lo, arr[i]);
+        }
         
         while(lo<hi){
             int mid = lo + (hi-lo)/2;
