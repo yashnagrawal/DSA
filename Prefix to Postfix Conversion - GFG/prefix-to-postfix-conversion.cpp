@@ -13,35 +13,28 @@ class Solution {
         return ch=='+'||ch=='-'||ch=='*'||ch=='/';
     }
     
-    string preToPostHelper(string pre_exp, int lo, int hi){
-        string postfix;
-        if(lo==hi){
-            postfix = pre_exp[lo];
+    string preToPostHelper(string pre_exp, int &ind, int n){
+        string postfix = "";
+        if(ind==n) return postfix;
+        if(!isOperator(pre_exp[ind])){
+            postfix = pre_exp[ind++];
             return postfix;
         }
         
-        if(!isOperator(pre_exp[lo])) return "INVALID PREFIX";
+        char op = pre_exp[ind++];
         
-        int ind = lo + 1;
-        int operators = 0;
-        int variables = 0;
+        string left = preToPostHelper(pre_exp, ind, n);
+        string right = preToPostHelper(pre_exp, ind, n);
         
-        for(; ind<=hi; ind++){
-            if(isOperator(pre_exp[ind])) operators++;
-            else variables++;
-            if(variables==operators+1) break;
-        }
-        
-        if(ind==hi||variables!=operators+1) return "INVALID PREFIX";
-        
-        postfix = preToPostHelper(pre_exp, lo+1, ind) + preToPostHelper(pre_exp, ind+1, hi) + pre_exp[lo];
+        postfix = left + right + op;
         
         return postfix;
     }
     
     string preToPost(string pre_exp) {
         int n = pre_exp.length();
-        return preToPostHelper(pre_exp, 0, n-1);
+        int ind = 0;
+        return preToPostHelper(pre_exp, ind, n);
     }
 };
 
