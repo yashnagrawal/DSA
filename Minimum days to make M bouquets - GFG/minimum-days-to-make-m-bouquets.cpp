@@ -5,7 +5,7 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    bool isBouquetPossible(vector<int> &bloomDay, int m, int k, int n, int day){
+    int find_max_bouquets_possible(vector<int> &bloomDay, int k, int n, int day){
         int max_bouquets_possible = 0;
         int last_blossom_ind = 0;
         for(int i=0; i<n; i++){
@@ -17,27 +17,28 @@ class Solution {
         
         if(bloomDay[n-1]<=day) max_bouquets_possible+=((n-last_blossom_ind)/k);
         
-        return max_bouquets_possible>=m;
+        return max_bouquets_possible;
     }
   
     int solve(int m, int k, vector<int> &bloomDay){
           // Code here
           int n = bloomDay.size();
           if(m*k>n) return -1;
-          int lo = 0;
-          int hi = INT_MIN;
           
-          for(auto i: bloomDay) hi = max(hi, i);
+          int hi = INT_MIN;
+          int lo = 0;
+          
+          for(auto day: bloomDay) hi = max(hi, day);
           
           while(lo<hi){
-              int mid = lo + (hi-lo)/2;
+              int day = lo + (hi-lo)/2;
               
-              if(isBouquetPossible(bloomDay, m, k, n, mid)) hi = mid;
-              else lo = mid + 1;
+              if(find_max_bouquets_possible(bloomDay, k, n, day)>=m) hi = day;
+              else lo = day + 1;
           }
           
-          return (isBouquetPossible(bloomDay, m, k, n, lo))?lo:-1;
-      
+          if(find_max_bouquets_possible(bloomDay, k, n, lo)==m) return lo;
+          return -1;
     }
 };
 
