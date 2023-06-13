@@ -12,7 +12,7 @@ class Solution {
     bool isOperator(char ch){
         return ch=='+'||ch=='-'||ch=='*'||ch=='/';
     }
-    string preToInfixHelper(string pre_exp, int &ind, int n){
+    string preToInfixHelper(string &pre_exp, int &ind, int n){
         string infix = "";
         if(ind==n){
             return infix;
