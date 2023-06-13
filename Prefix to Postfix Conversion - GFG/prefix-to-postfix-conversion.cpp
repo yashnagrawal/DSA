@@ -13,7 +13,7 @@ class Solution {
         return ch=='+'||ch=='-'||ch=='*'||ch=='/';
     }
     
-    string preToPostHelper(string pre_exp, int &ind, int n){
+    string preToPostHelper(string &pre_exp, int &ind, int n){
         string postfix = "";
         if(ind==n) return postfix;
         if(!isOperator(pre_exp[ind])){
