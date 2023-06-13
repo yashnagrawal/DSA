@@ -9,8 +9,8 @@ using namespace std;
 
 class Solution {
   public:
-    bool isSumOfDivOfArrLessThanEqualToK(int divisor, vector<int>&nums, int k, int n){
-        if(divisor==0) return 0;
+    int sumOfDivOfArr(int divisor, vector<int>&nums, int n){
+        if(divisor==0) return INT_MAX;
         int sum = 0;
         
         for(int i=0; i<n; i++){
@@ -18,7 +18,7 @@ class Solution {
             if(nums[i]%divisor) sum++;
         }
         
-        return sum<=k;
+        return sum;
     }
     
     int smallestDivisor(vector<int>& nums, int k) {
@@ -32,7 +32,7 @@ class Solution {
         while(lo<hi){
             int mid = lo + (hi-lo)/2;
             
-            if(isSumOfDivOfArrLessThanEqualToK(mid, nums, k, n)) hi = mid;
+            if(sumOfDivOfArr(mid, nums, n)<=k) hi = mid;
             else lo = mid + 1;
         }
         
