@@ -13,7 +13,7 @@ class Solution {
         return ch=='+'||ch=='-'||ch=='*'||ch=='/';
     }
     
-    string postToPreHelper(string post_exp, int &ind){
+    string postToPreHelper(string &post_exp, int &ind){
         string prefix = "";
         if(ind<0) return prefix;
         
