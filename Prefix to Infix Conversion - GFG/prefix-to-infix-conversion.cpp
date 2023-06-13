@@ -23,7 +23,6 @@ class Solution {
             return infix;
         } 
         
-        int temp_ind = ind;
         char op = pre_exp[ind++];
         
         string left = preToInfixHelper(pre_exp, ind, n);
