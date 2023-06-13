@@ -12,11 +12,11 @@ public:
     int number_of_cows_with_distance(int n, vector<int> &stalls, int distance){
         int num_of_cows = 1;
         
-        int j = 0;
+        int last_cow_ind = 0;
         
         for(int i=1; i<n; i++){
-            if(abs(stalls[i]-stalls[j])>=distance){
-                j=i;
+            if(abs(stalls[i]-stalls[last_cow_ind])>=distance){
+                last_cow_ind=i;
                 num_of_cows++;
             }
         }
