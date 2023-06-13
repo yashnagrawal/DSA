@@ -12,33 +12,35 @@ class Solution {
     bool isOperator(char ch){
         return ch=='+'||ch=='-'||ch=='*'||ch=='/';
     }
-    string preToInfixHelper(string pre_exp, int lo, int hi){
-        string infix;
-        if(lo==hi){
-            infix = pre_exp[lo];
+    string preToInfixHelper(string pre_exp, int &ind, int n){
+        string infix = "";
+        if(ind==n){
             return infix;
         }
         
-        if(!isOperator(pre_exp[lo])) return "INVALID PREFIX\n"; 
+        if(!isOperator(pre_exp[ind])){
+            // cout<<ind<<": ";
+            infix = pre_exp[ind++];
+            // cout<<infix<<"\n";
+            return infix;
+        } 
         
-        int ind = lo + 1;
-        int operators = 0;
-        int variables = 0;
-        for(; ind<=hi; ind++){
-            if(isOperator(pre_exp[ind])) operators++;
-            else variables++;
-            if(operators+1==variables) break;
-        }
-        if(operators+1!=variables||ind==hi) return "INVALID PREFIX\n";
+        int temp_ind = ind;
+        char op = pre_exp[ind++];
         
-        infix = "(" + preToInfixHelper(pre_exp, lo+1, ind)  + pre_exp[lo] + preToInfixHelper(pre_exp, ind+1, hi) + ")";
+        string left = preToInfixHelper(pre_exp, ind, n);
+        string right = preToInfixHelper(pre_exp, ind, n);
+        
+        infix = "(" + left + op + right + ")";
+        // cout<<pre_exp[temp_ind]<<": "<<infix<<"\n";
         return infix;
     }
     
     string preToInfix(string pre_exp) {
         // Write your code here
         int n = pre_exp.length();
-        return preToInfixHelper(pre_exp, 0, n-1);
+        int ind = 0;
+        return preToInfixHelper(pre_exp, ind, n);
     }
 };
 
