@@ -19,9 +19,7 @@ class Solution {
         }
         
         if(!isOperator(pre_exp[ind])){
-            // cout<<ind<<": ";
             infix = pre_exp[ind++];
-            // cout<<infix<<"\n";
             return infix;
         } 
         
@@ -32,7 +30,6 @@ class Solution {
         string right = preToInfixHelper(pre_exp, ind, n);
         
         infix = "(" + left + op + right + ")";
-        // cout<<pre_exp[temp_ind]<<": "<<infix<<"\n";
         return infix;
     }
     
