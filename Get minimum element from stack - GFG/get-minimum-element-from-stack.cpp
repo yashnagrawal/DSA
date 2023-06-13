@@ -17,7 +17,7 @@ public :
 */
 
 class Solution{
-    int minEle = INT_MAX;
+    stack<int> minEle;
     stack<int> s;
     public:
     
@@ -26,7 +26,7 @@ class Solution{
            
            //Write your code here
            if(s.empty()) return -1;
-           return minEle;
+           return minEle.top();
        }
        
        /*returns poped element from stack*/
@@ -34,21 +34,10 @@ class Solution{
            
            //Write your code here
            if(s.empty()) return -1;
-           stack<int> temp_stk;
            
            int ret = s.top();
            s.pop();
-           
-           while(!s.empty()){
-               temp_stk.push(s.top());
-               s.pop();
-           }
-           minEle = INT_MAX;
-           while(!temp_stk.empty()){
-               minEle = min(minEle, temp_stk.top());
-               s.push(temp_stk.top());
-               temp_stk.pop();
-           }
+           minEle.pop();
            
            return ret;
        }
@@ -57,7 +46,8 @@ class Solution{
        void push(int x){
            
            //Write your code here
-           minEle = min(minEle, x);
+           if(s.empty()) minEle.push(x);
+           else minEle.push(min(minEle.top(), x));
            s.push(x);
        }
 };
