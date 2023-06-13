@@ -17,7 +17,7 @@ public :
 */
 
 class Solution{
-    stack<int> minEle;
+    int minEle;
     stack<int> s;
     public:
     
@@ -26,7 +26,7 @@ class Solution{
            
            //Write your code here
            if(s.empty()) return -1;
-           return minEle.top();
+           return minEle;
        }
        
        /*returns poped element from stack*/
@@ -35,20 +35,34 @@ class Solution{
            //Write your code here
            if(s.empty()) return -1;
            
-           int ret = s.top();
-           s.pop();
-           minEle.pop();
-           
-           return ret;
+           if(s.top()<minEle){
+               int ret = minEle;
+               minEle = 2*minEle - s.top();
+               s.pop();
+               
+               return ret;
+           }
+           else{
+               int ret = s.top();
+               s.pop();
+               
+               return ret;
+           }
        }
        
        /*push element x into the stack*/
        void push(int x){
            
            //Write your code here
-           if(s.empty()) minEle.push(x);
-           else minEle.push(min(minEle.top(), x));
-           s.push(x);
+           if(s.empty()){
+               minEle = x;
+               s.push(x);
+           }
+           else if(x>=minEle) s.push(x);
+           else{
+               s.push(2*x-minEle);
+               minEle = x;
+           }
        }
 };
 
