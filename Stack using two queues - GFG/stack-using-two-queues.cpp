@@ -57,14 +57,15 @@ public:
 void QueueStack :: push(int x)
 {
         // Your Code
-        q2.push(x);
+        q1.push(x);
         
-        while(!q1.empty()){
-            q2.push(q1.front());
+        int size = q1.size()-1;
+        
+        while(size--){
+            q1.push(q1.front());
             q1.pop();
         }
-        
-        q2.swap(q1);
+
 }
 
 //Function to pop an element from stack using two queues. 
