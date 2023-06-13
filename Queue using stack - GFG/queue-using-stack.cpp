@@ -11,23 +11,23 @@ public:
     // 1 2 3
 
     void enqueue(int x) {
-        input.push(x);
-    }
-
-    int dequeue() {
-        if(input.empty()) return -1;
         while(!input.empty()){
             output.push(input.top());
             input.pop();
         }
-        int ret = output.top();
         
-        output.pop();
+        input.push(x);
         
         while(!output.empty()){
             input.push(output.top());
             output.pop();
         }
+    }
+
+    int dequeue() {
+        if(input.empty()) return -1;
+        int ret = input.top();
+        input.pop();
         
         return ret;
         
