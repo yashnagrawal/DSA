@@ -15,15 +15,11 @@ class Solution
         stack<char> s;
         
         for(auto ch: x){
-            // cout<<ch<<"\n";
-            if(s.empty()){
-                if(ch=='['||ch=='{'||ch=='(') s.push(ch);
-                else return false;
-            }
-            else{
+            if(ch=='['||ch=='{'||ch=='(') s.push(ch);
+            else if(s.empty()) return false;
+            else {
                 char top = s.top();
-                if(ch=='['||ch=='{'||ch=='(') s.push(ch);
-                else if((top=='['&&ch==']')||(top=='{'&&ch=='}')||(top=='('&&ch==')')) s.pop();
+                if((top=='['&&ch==']')||(top=='{'&&ch=='}')||(top=='('&&ch==')')) s.pop();
                 else return false;
             }
         }
