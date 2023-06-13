@@ -29,7 +29,9 @@ class Solution {
         // code here
         
         int lo = 0;
-        int hi = INT_MAX;
+        int hi = 0;
+        
+        for(int i=0; i<n; i++) hi+=arr[i];
         
         while(lo<hi){
             int mid = lo + (hi-lo)/2;
