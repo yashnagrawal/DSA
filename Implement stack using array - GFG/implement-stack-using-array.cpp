@@ -71,4 +71,5 @@ int MyStack :: pop()
 {
     // Your Code    
     if(top>=0) return arr[top--];
+    return -1;
 }
