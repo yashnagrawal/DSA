@@ -21,8 +21,6 @@ public:
             }
         }
         
-        // cout<<distance<<": "<<num_of_cows<<"\n";
-        
         return num_of_cows;
     }
 
@@ -37,7 +35,6 @@ public:
         
         while(lo<hi){
             int mid = lo + (hi-lo)/2;
-            // cout<<lo<<", "<<hi<<" - ";
             
             if(number_of_cows_with_distance(n, stalls, mid)<k) hi = mid;
             else lo = mid + 1;
