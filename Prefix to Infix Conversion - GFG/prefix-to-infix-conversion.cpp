@@ -12,31 +12,27 @@ class Solution {
     bool isOperator(char ch){
         return ch=='+'||ch=='-'||ch=='*'||ch=='/';
     }
-    string preToInfixHelper(string &pre_exp, int &ind, int n){
-        string infix = "";
-        if(ind==n){
-            return infix;
-        }
-        
-        if(!isOperator(pre_exp[ind])){
-            infix = pre_exp[ind++];
-            return infix;
-        } 
-        
-        char op = pre_exp[ind++];
-        
-        string left = preToInfixHelper(pre_exp, ind, n);
-        string right = preToInfixHelper(pre_exp, ind, n);
-        
-        infix = "(" + left + op + right + ")";
-        return infix;
-    }
     
     string preToInfix(string pre_exp) {
         // Write your code here
         int n = pre_exp.length();
-        int ind = 0;
-        return preToInfixHelper(pre_exp, ind, n);
+        stack<string> stk;
+        
+        for(int i=n-1; i>=0; i--){
+            char ch = pre_exp[i];
+            string ch_str = string(1, ch);
+            if(!isOperator(ch)) stk.push(ch_str);
+            else{
+                string left = stk.top();
+                stk.pop();
+                string right = stk.top();
+                stk.pop();
+                
+                stk.push("("+left + ch_str + right +")");
+            }
+        }
+        
+        return stk.top();
     }
 };
 
