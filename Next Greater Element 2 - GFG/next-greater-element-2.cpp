@@ -13,15 +13,15 @@ class Solution {
         stack<int> stk;
         
         for(int i=n-1; i>=0; i--){
-            while(!stk.empty()&&arr[i]>=arr[stk.top()]) stk.pop();
-            stk.push(i);
+            while(!stk.empty()&&arr[i]>=stk.top()) stk.pop();
+            stk.push(arr[i]);
         }
         
         for(int i=n-1; i>=0; i--){
-            while(!stk.empty()&&arr[i]>=arr[stk.top()]) stk.pop();
+            while(!stk.empty()&&arr[i]>=stk.top()) stk.pop();
             
-            if(!stk.empty()) nge[i] = arr[stk.top()];
-            stk.push(i);
+            if(!stk.empty()) nge[i] = stk.top();
+            stk.push(arr[i]);
         }
         
         return nge;
