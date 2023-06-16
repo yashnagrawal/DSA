@@ -11,27 +11,29 @@ class Solution{
     public:
     long long trappingWater(int arr[], int n){
         // code here
-        vector<int> prev_max(n), next_max(n);
+        long long trappedWater = 0;
         
-        for(int i=0; i<n; i++){
-            if(i>0) prev_max[i]=max(prev_max[i-1], arr[i]);
-            else prev_max[i]=arr[i];
+        int l = 0;
+        int r = n-1;
+        int leftMax = 0;
+        int rightMax = 0;
+        
+        while(l<=r){
+            if(arr[l]<=arr[r]){
+                if(arr[l]>=leftMax) leftMax = arr[l];
+                else trappedWater+=leftMax-arr[l];
+                
+                l++;
+            }
+            else{
+                if(arr[r]>=rightMax) rightMax = arr[r];
+                else trappedWater+=rightMax-arr[r];
+                
+                r--;
+            }
         }
         
-        for(int i=n-1; i>=0; i--){
-            if(i<n-1) next_max[i]=max(next_max[i+1], arr[i]);
-            else next_max[i]=arr[i];
-        }
-        
-        long long trapped_water = 0;
-        
-        for(int i=0; i<n; i++){
-            long long water_here = min(prev_max[i], next_max[i]) - arr[i];
-            
-            trapped_water+=water_here;
-        }
-        
-        return trapped_water;
+        return trappedWater;
     }
 };
 
