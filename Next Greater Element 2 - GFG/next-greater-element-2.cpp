@@ -8,17 +8,20 @@ class Solution {
   public:
     vector<int> nextGreaterElement(int n, vector<int>& arr) {
         // code here
-        vector<int> nge(n, -1);
         
-        for(int i=0; i<n; i++){
-            for(int add=1; add<n; add++){
-                int j = (i + add)%n;
-                
-                if(arr[i]<arr[j]){
-                    nge[i]=arr[j];
-                    break;
-                }
-            }
+        vector<int> nge(n, -1);
+        stack<int> stk;
+        
+        for(int i=n-1; i>=0; i--){
+            while(!stk.empty()&&arr[i]>=arr[stk.top()]) stk.pop();
+            stk.push(i);
+        }
+        
+        for(int i=n-1; i>=0; i--){
+            while(!stk.empty()&&arr[i]>=arr[stk.top()]) stk.pop();
+            
+            if(!stk.empty()) nge[i] = arr[stk.top()];
+            stk.push(i);
         }
         
         return nge;
