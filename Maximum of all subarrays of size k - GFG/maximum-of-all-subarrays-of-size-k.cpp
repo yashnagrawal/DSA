@@ -28,14 +28,10 @@ class Solution
             stk.push(i);
         }
         
-        // for(auto i: next_greater) cout<<i<<" ";
-        // cout<<"\n";
-        
         for(int i=0; i<n-k+1; i++){
             int nge = next_greater[i];
             
             while(next_greater[nge]!=nge&&next_greater[nge]-i+1<=k) nge = next_greater[nge];
-            // cout<<i<<": "<<nge<<"\n";
             
             if(nge-i+1>k) nge = i;
             
