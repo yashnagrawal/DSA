@@ -17,25 +17,27 @@ class Solution
         // your code here
         vector<int> maxs(n-k+1, INT_MIN);
         
-        vector<int> next_greater(n, -1);
+        vector<int> next_greater(n, n);
         stack<int> stk;
         
         for(int i=n-1; i>=0; i--){
             while(!stk.empty()&&arr[i]>=arr[stk.top()]) stk.pop();
             
             if(!stk.empty()) next_greater[i] = stk.top();
-            else next_greater[i] = i;
             stk.push(i);
         }
         
+        int nge = 0;
+        
         for(int i=0; i<n-k+1; i++){
-            int nge = next_greater[i];
             
-            while(next_greater[nge]!=nge&&next_greater[nge]-i+1<=k) nge = next_greater[nge];
+            if(nge<i) nge = i;
             
-            if(nge-i+1>k) nge = i;
+            maxs[i] = arr[i];
             
-            maxs[i] = arr[nge];
+            while(nge!=n&&next_greater[nge]-i+1<=k) nge = next_greater[nge];
+            
+            if(nge!=n) maxs[i] = arr[nge];
         }
         
         return maxs;
