@@ -9,15 +9,6 @@ class Solution
 {
     public:
     //Function to check if two strings are rotations of each other or not.
-    bool isPartition(string s1, string s2, int i, int n){
-        string s11 = s1.substr(0, i);
-        string s12 = s1.substr(i, n-i);
-        
-        string s21 = s2.substr(0, n-i);
-        string s22 = s2.substr(n-i, i);
-        
-        return s11 == s22 && s12 == s21;
-    }
     
     bool areRotations(string s1,string s2)
     {
@@ -28,8 +19,9 @@ class Solution
         if(n1!=n2) return 0;
         if(s1==s2) return 1;
         
-        for(int i=0; i<n1; i++){
-            if(isPartition(s1, s2, i, n1)) return 1;
+        for(int i=0; i<n1-1; i++){
+            string ns1 = s1.substr(i+1, n1-i-1) + s1.substr(0, i + 1);
+            if(ns1==s2) return 1;
         }
         
         return 0;
