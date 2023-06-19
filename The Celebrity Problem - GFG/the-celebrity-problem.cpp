@@ -11,33 +11,36 @@ class Solution
 {
     public:
     //Function to find if there is a celebrity in the party or not.
-    bool isRowZero(vector<int> &row){
-        bool isZero = 1;
-        for(auto cell: row) isZero = isZero&&!cell;
-        return isZero;
-    }
-    
-    bool isColOne(vector<vector<int> >& mat, int cbt, int n){
-        bool isOne = 1;
-        
-        for(int i=0; i<n; i++){
-            if(i==cbt) continue;
-            
-            isOne = isOne&&mat[i][cbt];
-        }
-        
-        return isOne;
-    }
     
     int celebrity(vector<vector<int> >& mat, int n) 
     {
         // code here 
         
-        for(int cbt = 0; cbt<n; cbt++){
-            if(isRowZero(mat[cbt])&&isColOne(mat, cbt, n)) return cbt;
+        stack<int> s;
+        
+        for(int i=0; i<n; i++) s.push(i);
+        
+        while(s.size()!=1){
+            int a = s.top();
+            s.pop();
+            int b = s.top();
+            s.pop();
+            
+            if(mat[a][b]) s.push(b);
+            else s.push(a);
         }
         
-        return -1;
+        int candidate = s.top();
+        int celebrity = candidate;
+        
+        bool isCelebrity = 1;
+        for(int j=0; j<n; j++) if(mat[candidate][j]) celebrity = -1;
+        
+        for(int i=0; i<n; i++){
+            if(i!=candidate&&mat[i][candidate]==0) celebrity = -1;
+        }
+        
+        return celebrity;
     }
 };
 
