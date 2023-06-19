@@ -17,11 +17,10 @@ class Solution
         int n2 = s2.length();
         
         if(n1!=n2) return 0;
-        if(s1==s2) return 1;
         
-        for(int i=0; i<n1-1; i++){
-            string ns1 = s1.substr(i+1, n1-i-1) + s1.substr(0, i + 1);
-            if(ns1==s2) return 1;
+        for(int i=0; i<n1; i++){
+            s1 = s1.substr(1, n1-1) + s1[0];
+            if(s1==s2) return 1;
         }
         
         return 0;
