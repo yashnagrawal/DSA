@@ -16,28 +16,22 @@ class Solution
     {
         // code here 
         
-        stack<int> s;
+        int st = 0;
+        int ed = n-1;
         
-        for(int i=0; i<n; i++) s.push(i);
-        
-        while(s.size()!=1){
-            int a = s.top();
-            s.pop();
-            int b = s.top();
-            s.pop();
-            
-            if(mat[a][b]) s.push(b);
-            else s.push(a);
+        while(st<ed){
+            if(mat[st][ed]==1) st++;
+            else ed--;
         }
         
-        int candidate = s.top();
-        int celebrity = candidate;
-        
-        bool isCelebrity = 1;
-        for(int j=0; j<n; j++) if(mat[candidate][j]) celebrity = -1;
+        int celebrity = st;
         
         for(int i=0; i<n; i++){
-            if(i!=candidate&&mat[i][candidate]==0) celebrity = -1;
+            if(i!=st&&mat[i][st]==0) celebrity = -1;
+        }
+        
+        for(int j=0; j<n; j++){
+            if(mat[st][j]==1) celebrity = -1;
         }
         
         return celebrity;
