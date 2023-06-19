@@ -17,27 +17,20 @@ class Solution
         // your code here
         vector<int> maxs(n-k+1, INT_MIN);
         
-        vector<int> next_greater(n, n);
-        stack<int> stk;
+        deque<int> dq;
         
-        for(int i=n-1; i>=0; i--){
-            while(!stk.empty()&&arr[i]>=arr[stk.top()]) stk.pop();
+        for(int i=0; i<n; i++){
             
-            if(!stk.empty()) next_greater[i] = stk.top();
-            stk.push(i);
-        }
-        
-        int nge = 0;
-        
-        for(int i=0; i<n-k+1; i++){
+            while(!dq.empty()&&i-dq.front()+1>k) dq.pop_front();
+            while(!dq.empty()&&arr[dq.back()]<arr[i]) dq.pop_back();
             
-            if(nge<i) nge = i;
+            dq.push_back(i);
             
-            maxs[i] = arr[i];
+            // cout<<i<<": ";
+            // for(auto ele: dq) cout<<arr[ele]<<" ";
+            // cout<<"\n";
             
-            while(nge!=n&&next_greater[nge]-i+1<=k) nge = next_greater[nge];
-            
-            if(nge!=n) maxs[i] = arr[nge];
+            if(i-k+1>=0) maxs[i-k+1] = arr[dq.front()];
         }
         
         return maxs;
