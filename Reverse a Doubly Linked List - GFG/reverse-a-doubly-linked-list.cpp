@@ -103,29 +103,19 @@ Node* reverseDLL(Node * head)
     //Your code here
     vector<Node *> arr;
     
-    Node* node = head;
+    Node* curr_node = head;
+    Node* prev_node = NULL;
     
-    while(node!=NULL){
-        arr.push_back(node);
-        node = node->next;
+    while(curr_node!=NULL){
+        curr_node->prev = curr_node->next;
+        curr_node->next = prev_node;
+        
+        prev_node = curr_node;
+        curr_node = curr_node->prev;
     }
     
-    int n = arr.size();
-    
-    for(int i=0; i<n; i++){
-        Node *prev = NULL;
-        Node *next = NULL;
-        
-        if(i>0) prev = arr[i-1];
-        if(i<n-1) next = arr[i+1];
-        
-        Node *node = arr[i];
-        
-        node->next = prev;
-        node->prev = next;
-    }
-    
-    return arr.back();
+    if(prev_node==NULL) return head;
+    return prev_node;
 }
 
 
