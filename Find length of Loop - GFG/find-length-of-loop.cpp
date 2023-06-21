@@ -77,19 +77,30 @@ struct Node {
 int countNodesinLoop(struct Node *head)
 {
     // Code here
-    struct Node* curr_node = head;
-    unordered_map<struct Node*, int> map;
-    int count = 0;
+    if(head==NULL||head->next==NULL) return 0;
     
-    while(curr_node!=NULL){
-        if(map.find(curr_node)!=map.end()) return count - map[curr_node];
+    struct Node* fast_node = head;
+    struct Node* slow_node = head;
+    
+    while(fast_node!=NULL&&fast_node->next!=NULL){
+        fast_node = fast_node->next->next;
+        slow_node = slow_node->next;
         
-        map[curr_node] = count;
-        count++;
-        
-        curr_node = curr_node->next;
+        if(slow_node==fast_node) break;
     }
     
-    return 0;
+    if(slow_node!=fast_node)
+        return 0;
+    
+    int len = 0;
+    
+    while(1){
+        slow_node = slow_node->next;
+        len++;
+        
+        if(slow_node==fast_node) return len;
+    }
+    
+    return -1;
     
 }
