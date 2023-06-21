@@ -44,14 +44,10 @@ class Solution{
         // Your code here
         Node *middleNode = head;
         Node *currNode = head;
-        int curr_pos = 1;
         
-        while(currNode!=NULL){
-            currNode = currNode->next;
-            
-            curr_pos++;
-            
-            if(curr_pos>2&&curr_pos%2) middleNode = middleNode->next;
+        while(currNode!=NULL&&currNode->next!=NULL){
+            middleNode = middleNode->next;
+            currNode = currNode->next->next;
         }
         
         return middleNode->data;
