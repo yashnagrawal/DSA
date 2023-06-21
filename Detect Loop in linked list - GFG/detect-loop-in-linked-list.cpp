@@ -49,16 +49,19 @@ class Solution
     bool detectLoop(Node* head)
     {
         // your code here
-        int count = 0;
-        Node* currNode = head;
+        if(head==NULL||head->next==NULL) return false;
         
-        while(count<10000){
-            if(currNode==NULL) return false;
-            count++;
-            currNode = currNode->next;
+        Node* fast_node = head;
+        Node* slow_node = head;
+        
+        while(fast_node!=NULL&&fast_node->next!=NULL){
+            fast_node = fast_node->next->next;
+            slow_node = slow_node->next;
+            
+            if(fast_node==slow_node) return true;
         }
         
-        return true;
+        return false;
     }
 };
 
