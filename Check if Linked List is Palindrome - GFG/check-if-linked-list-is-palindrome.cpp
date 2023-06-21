@@ -32,36 +32,48 @@ struct Node {
 class Solution{
   public:
     //Function to check whether the list is palindrome.
-    bool isSeqPalindrome(int num){
-        int reverse = 0;
+    Node* reverseLL(Node* head){
+        Node* last_node = NULL;
+        Node* curr_node = head;
         
-        int temp = num;
-        
-        while(temp>0){
-            int digit = temp%10;
-            temp/=10;
+        while(curr_node!=NULL){
+            Node* next_node = curr_node->next;
             
-            reverse = reverse*10 + digit;
+            curr_node->next = last_node;
+            last_node = curr_node;
+            
+            curr_node = next_node;
         }
         
-        return num==reverse;
+        if(last_node==NULL) return head;
+        return last_node;
     }
     
     bool isPalindrome(Node *head)
     {
         //Your code here
-        int num = 0;
+        if(head==NULL||head->next==NULL) return true;
         
-        Node* curr_node = head;
+        Node* slow_node = head;
+        Node* fast_node = head->next;
         
-        while(curr_node!=NULL){
-            int data = curr_node->data;
-            
-            num = num*10 + data;
-            curr_node = curr_node->next;
+        while(fast_node!=NULL&&fast_node->next!=NULL){
+            fast_node = fast_node->next->next;
+            slow_node = slow_node->next;
         }
         
-        return isSeqPalindrome(num);
+        slow_node->next = reverseLL(slow_node->next);
+        
+        Node* first_node = head;
+        Node* second_node = slow_node->next;
+        
+        while(second_node!=NULL){
+            if(first_node->data!=second_node->data) return false;
+            first_node = first_node->next;
+            second_node = second_node->next;
+        }
+        
+        return true;
     }
 };
 
