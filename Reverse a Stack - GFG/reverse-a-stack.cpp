@@ -13,14 +13,24 @@ public:
     void Reverse(stack<int> &st){
         if(st.empty()) return;
         
-        stack<int> reversed;
+        int top = st.top();
+        st.pop();
+        
+        Reverse(st);
+        stack<int> temp;
         
         while(!st.empty()){
-            reversed.push(st.top());
+            temp.push(st.top());
             st.pop();
         }
         
-        st.swap(reversed);
+        st.push(top);
+        
+        while(!temp.empty()){
+            st.push(temp.top());
+            temp.pop();
+        }
+        
     }
 };
 
