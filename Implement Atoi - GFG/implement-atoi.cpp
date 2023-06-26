@@ -12,22 +12,22 @@ class Solution{
     /*You are required to complete this method */
     int atoi(string str) {
         //Your code here
-        int ans = 0;
-        bool isNeg = 0;
-        
+        bool neg = 0;
         if(str[0]=='-'){
-            isNeg = 1;
             str = str.substr(1, str.length()-1);
+            neg = 1;
         }
-        
+        int ans = 0;
         for(auto ch: str){
-            if(ch<'0'||ch>'9') return -1;
             int digit = ch-'0';
             
-            ans = ans*10+digit;
+            if(digit<0||digit>9) return -1;
+            
+            ans = 10*ans + digit;
         }
         
-        if(isNeg) return -ans;
+        if(neg) ans = -ans;
+        
         return ans;
     }
 };
