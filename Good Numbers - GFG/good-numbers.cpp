@@ -9,31 +9,34 @@ using namespace std;
 
 class Solution {
   public:
-    bool isGoodNum(int num, int d){
-        int sum = num%10;
-        num/=10;
+  vector<int> good_numbers_list;
+  
+    void recr(int curr_sum, int num, int l, int r, int d, int mul){
+        if(num>r) return;
         
-        if(sum==d) return 0;
+        if(num>=l) good_numbers_list.push_back(num);
         
-        while(num>0){
-            int digit = num%10;
-            num/=10;
+        int i = curr_sum + 1;
+        if(mul==1) i = 0;
+        
+        for(; i<=9; i++){
+            if(i==d) continue;
             
-            if(digit<=sum||digit==d) return 0;
-            sum+=digit;
+            int new_num = i*mul + num;
+            int new_sum = curr_sum + i;
+            
+            recr(new_sum, new_num, l, r, d, mul*10);
         }
         
-        return 1;
     }
+    
     vector<int> goodNumbers(int l, int r, int d) {
         // code here
-        vector<int> ans;
+        recr(0, 0, l, r, d, 1);
         
-        for(int i=l; i<=r; i++){
-            if(isGoodNum(i, d)) ans.push_back(i);
-        }
+        sort(good_numbers_list.begin(), good_numbers_list.end());
         
-        return ans;
+        return good_numbers_list;
     }
 };
 
