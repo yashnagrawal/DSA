@@ -5,19 +5,28 @@ using namespace std;
 // } Driver Code Ends
 class Solution{
 	public:
-		vector<string> AllPossibleStrings(string s){
+	    vector<string> subsequences;
+	    
+	    void recr(string subseq, string str, int ind, int n){
+	        if(ind==n) return;
+	        
+	        // inc
+	        string inc = subseq+str[ind];
+	        subsequences.push_back(inc);
+	        recr(inc, str, ind+1, n);
+	        
+	        // exc
+	        recr(subseq, str, ind+1, n);
+	        
+	        return;
+	    }
+		vector<string> AllPossibleStrings(string str){
 		    // Code here
-    		int n = (int)s.length();
-		    vector<string> ans((1<<n)-1);
+		    recr("", str, 0, str.length());
 		    
-		    for(int i=1; i<(1<<n); i++){
-		        for(int j=0; j<n; j++){
-		            if(i&(1<<j)) ans[i-1].push_back(s[j]);
-		        }
-		    }
+		    sort(subsequences.begin(), subsequences.end());
 		    
-		    sort(ans.begin(), ans.end());
-		    return ans;
+		    return subsequences;
 		}
 };
 
