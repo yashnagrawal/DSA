@@ -15,7 +15,7 @@ class Solution {
     vector<vector<int>> combinations;
     vector<int> unique_arr;
     
-    void recr(vector<int> curr_arr, int ind, int curr_sum, int req_sum, int n){
+    void recr(vector<int> &curr_arr, int ind, int curr_sum, int req_sum, int n){
         if(curr_sum==req_sum){
             combinations.push_back(curr_arr);
             return;
@@ -24,10 +24,11 @@ class Solution {
         
         
         // inc
-        vector<int> new_arr = curr_arr;
-        new_arr.push_back(unique_arr[ind]);
+        curr_arr.push_back(unique_arr[ind]);
         
-        recr(new_arr, ind, curr_sum+unique_arr[ind], req_sum, n);
+        recr(curr_arr, ind, curr_sum+unique_arr[ind], req_sum, n);
+        
+        curr_arr.pop_back();
         
         // exc
         recr(curr_arr, ind+1, curr_sum, req_sum, n);
@@ -47,7 +48,9 @@ class Solution {
         
         for(auto i: elements) unique_arr.push_back(i);
         
-        recr({}, 0, 0, sum, unique_arr.size());
+        vector<int> curr_arr;
+        
+        recr(curr_arr, 0, 0, sum, unique_arr.size());
         
         return combinations;
     }
