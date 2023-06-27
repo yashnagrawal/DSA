@@ -6,25 +6,39 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    vector<vector<int>> combinations;
-    void recr(int num, int sum, vector<int> nums, int k, int n){
-        if(sum==n&&nums.size()==k){
-            combinations.push_back(nums);
-            return;
+    vector<int> num_to_combination(long long int permutation, int k, int sum){
+        int curr_sum = 0;
+        int num = 1;
+        vector<int> combination;
+        
+        while(permutation>0){
+            if(permutation%2){
+                curr_sum+=num;
+                combination.push_back(num);
+            }
+            
+            num++;
+            permutation/=2;
         }
-        if(nums.size()>k||sum>n||num>9) return;
         
-        // exc
-        recr(num+1, sum, nums, k, n);
-        
-        // inc
-        nums.push_back(num);
-        recr(num+1, sum+num, nums, k, n);
+        if(combination.size()==k&&sum==curr_sum) return combination;
+        return {};
     }
     
     vector<vector<int>> combinationSum(int k, int n) {
         // code here
-        recr(1, 0, {}, k, n);
+        vector<vector<int>> combinations;
+        
+        long long int permutation = 0;
+        long long int limit = 1<<9;
+        
+        while(permutation<limit){
+            vector<int> combination = num_to_combination(permutation, k, n);
+            
+            if(combination.size()==k) combinations.push_back(combination);
+            
+            permutation++;
+        }
         
         return combinations;
     }
