@@ -12,7 +12,7 @@ class Solution {
   public:
     vector<vector<int>> subsets;
     
-    void addSubsets(unordered_map<int, int> &freq, int num, vector<int> curr_subset){
+    void addSubsets(unordered_map<int, int> &freq, int num, vector<int> &curr_subset){
         if(num>10) return;
         
         addSubsets(freq, num+1, curr_subset);
@@ -22,6 +22,8 @@ class Solution {
             subsets.push_back(curr_subset);
             addSubsets(freq, num+1, curr_subset);
         }
+        
+        curr_subset.resize(curr_subset.size()-freq[num]);
         
         return;
     }
@@ -33,9 +35,11 @@ class Solution {
         
         for(auto i: nums) freq[i]++;
         
-        subsets.push_back({});
+        vector<int> curr_subset;
         
-        addSubsets(freq, -10, {});
+        subsets.push_back(curr_subset);
+        
+        addSubsets(freq, -10, curr_subset);
         
         return subsets;
     }
