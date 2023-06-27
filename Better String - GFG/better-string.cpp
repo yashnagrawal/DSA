@@ -41,13 +41,6 @@ class Solution {
             }
             last_occ2[ch] = i;
         }
-        // cout<<str1<<": ";
-        // for(auto i: dp1) cout<<i<<" ";
-        // cout<<"\n";
-        
-        // cout<<str2<<": ";
-        // for(auto i: dp2) cout<<i<<" ";
-        // cout<<"\n";
         
         if(dp1[n1]>=dp2[n2]) return str1;
         return str2;
