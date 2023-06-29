@@ -43,8 +43,6 @@ class Solution {
         
         recr(0, "", str, target, permutations, n, 0, 0);
         
-        // if(permutations.size()==0) permutations.push_back("");
-        
         return permutations;
     }
 };
