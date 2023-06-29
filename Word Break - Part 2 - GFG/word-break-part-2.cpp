@@ -12,7 +12,6 @@ public:
     void recr(int ind, string curr_str, string str, int n, vector<string> &dict, vector<string> &permutations){
         if(ind==n){
             permutations.push_back(curr_str);
-            // cout<<curr_str<<"\n";
             return;
         }
         
