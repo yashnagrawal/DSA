@@ -24,7 +24,8 @@ class Solution
         long long quotient = 0;
         
         long long mul = divisor<<31;
-        long long pow_of_2 = 1<<31;
+        long long t = 1;
+        long long pow_of_2 = t<<31;
         
         for(int i=31; i>=0&&dividend; i--){
             if(mul<=dividend){
