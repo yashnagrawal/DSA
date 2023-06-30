@@ -23,12 +23,13 @@ class Solution
         
         long long quotient = 0;
         
-        int temp = 0;
-        
         for(int i=31; i>=0; i--){
-            if((temp+(divisor<<i))<=dividend){
-                temp +=(divisor<<i);
-                quotient|=(long long)1<<i;
+            long long mul = divisor<<i;
+            
+            if(mul<=dividend){
+                dividend-=mul;
+                
+                quotient = quotient|(1<<i);
             }
         }
         
