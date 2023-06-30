@@ -9,27 +9,17 @@ public:
     int setBit(int n)
     {
         // Write Your Code here
-        int digit = 0;
-        int ans = 0;
         
-        int mod = n%2;
-        while(n>0&&mod!=0){
-            ans+=(mod<<(digit++));
-            n/=2;
-            mod = n%2;
+        int first_set=1;
+        
+        while(first_set<=n){
+            if((first_set&n)==0) break;
+            first_set = first_set<<1;
         }
         
-        if(n==0) return ans;
+        if(first_set>=n) return n;
         
-        mod = 1;
-        
-        while(n>0){
-            ans+=(mod<<(digit++));
-            n/=2;
-            mod=n%2;
-        }
-        
-        return ans;
+        return first_set|n;
     }
 };
 
