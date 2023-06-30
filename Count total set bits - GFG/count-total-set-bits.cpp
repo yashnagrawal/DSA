@@ -12,25 +12,33 @@ class Solution{
     public:
     // n: input to count the number of set bits
     //Function to return sum of count of set bits in the integers from 1 to n.
-    
-    int max2pow(int n){
-        int ans = 0;
-        while(n!=1){
-            ans++;
-            n/=2;
+    vector<int> max2Pow(int n){
+        int num = 1;
+        int pow = 0;
+        
+        while(num*2<=n){
+            num*=2;
+            pow++;
         }
-        return ans;
+        
+        return {pow, num};
     }
     
     int countSetBits(int n)
     {
-        // Your logic here
-        if(n<2) return n;
-        int x = max2pow(n);
-        int rem = n-(1<<(x));
-        int set_bits_till_2_pow_x = (x)*(1<<(x-1));
         
-        return set_bits_till_2_pow_x + rem + 1 + countSetBits(rem);
+        if(n==0) return 0;
+        
+        vector<int> pows = max2Pow(n);
+        
+        int max_pow = pows[0];
+        int max_num = pows[1];
+        
+        int rem = countSetBits(n-max_num);
+        
+        int ret = (n-max_num + 1) + rem + ((max_num/2)*max_pow);
+        
+        return ret;
     }
 };
 
