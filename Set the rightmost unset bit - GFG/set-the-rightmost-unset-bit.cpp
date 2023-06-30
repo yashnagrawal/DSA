@@ -10,16 +10,12 @@ public:
     {
         // Write Your Code here
         
-        int first_set=1;
+        //  110
+        //  111
         
-        while(first_set<=n){
-            if((first_set&n)==0) break;
-            first_set = first_set<<1;
-        }
         
-        if(first_set>=n) return n;
-        
-        return first_set|n;
+        if((n&(n+1))==0) return n; 
+        return n|n+1;
     }
 };
 
