@@ -31,7 +31,7 @@ class Solution
             if(mul<=dividend){
                 dividend-=mul;
                 
-                quotient = quotient|(1<<i);
+                quotient = quotient|pow_of_2;
             }
             
             // cout<<i<<": "<<quotient<<", "<<mul<<", "<<pow_of_2<<"\n";
