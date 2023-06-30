@@ -23,14 +23,20 @@ class Solution
         
         long long quotient = 0;
         
-        for(int i=31; i>=0&&dividend>0; i--){
-            long long mul = divisor<<i;
-            
+        long long mul = divisor<<31;
+        long long pow_of_2 = 1<<31;
+        
+        for(int i=31; i>=0&&dividend; i--){
             if(mul<=dividend){
                 dividend-=mul;
                 
                 quotient = quotient|(1<<i);
             }
+            
+            // cout<<i<<": "<<quotient<<", "<<mul<<", "<<pow_of_2<<"\n";
+            
+            mul = mul>>1;
+            pow_of_2 = pow_of_2>>1;
         }
         
         return neg*quotient;
