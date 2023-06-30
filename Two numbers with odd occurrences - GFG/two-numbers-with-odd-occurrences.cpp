@@ -9,13 +9,8 @@ class Solution{
     public:
     
     long long int get_rightmost_bit(long long int num){
-        long long int rightmost_bit = 1;
         
-        while(!(num&rightmost_bit)){
-            rightmost_bit=rightmost_bit<<1;
-        }
-        
-        return rightmost_bit;
+        return num&~(num-1);
     }
     
     vector<long long int> twoOddNum(long long int arr[], long long int n)  
