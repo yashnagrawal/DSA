@@ -6,25 +6,28 @@ using namespace std;
 // } Driver Code Ends
 class Solution{
   public:
-    int numberOfSubarrays(vector<int>& arr, int n, int target){
-        // code here
-        unordered_map<int, int> prefix_count;
-        int prefix = 0;
+    int subarraysWithAtMaxTarget(vector<int> &arr, int n, int target){
+        int j = 0;
+        int curr_sum = 0;
         int ans = 0;
         
-        prefix_count[prefix] = 1;
-        
         for(int i=0; i<n; i++){
-            prefix+=arr[i];
+            curr_sum +=arr[i];
             
-            prefix_count[prefix]++;
+            while(curr_sum>target){
+                curr_sum-=arr[j];
+                j++;
+            }
             
-            // cout<<i<<": "<<prefix<<", "<<prefix_count[prefix]<<"\n";
-            
-            ans+=prefix_count[prefix-target];
+            ans += (i-j+1);
         }
         
         return ans;
+    }
+    
+    int numberOfSubarrays(vector<int>& arr, int n, int target){
+        // code here
+        return subarraysWithAtMaxTarget(arr, n, target)-subarraysWithAtMaxTarget(arr, n, target-1);
     }
 };
 
