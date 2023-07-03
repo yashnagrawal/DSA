@@ -5,63 +5,44 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
 public:
-    int diff(string &a, string &b){
-        int n = a.length();
-        int cnt = 0;
-        
-        for(int i=0; i<n; i++){
-            if(a[i]!=b[i]) cnt++;
-        }
-        
-        return cnt;
-    }
 
     int wordLadderLength(string startWord, string targetWord, vector<string>& wordList) {
         // Code here
-        queue<int> q;
+        queue<string> q;
         int n = wordList.size();
+        int m = wordList[0].length();
         
-        vector<list<int>> al(n);
-        vector<bool> visited(n, 0);
+        unordered_set<string> st(wordList.begin(), wordList.end());
         
-        int tar_ind = -1;
+        q.push(startWord);
         
-        for(int i=0; i<n; i++){
-            if(targetWord==wordList[i]) tar_ind = i;
-            for(int j=i+1; j<n; j++){
-                if(diff(wordList[i], wordList[j])==1){
-                    al[i].push_back(j);
-                    al[j].push_back(i);
-                }
-            }
-        }
-        
-        if(tar_ind==-1) return 0;
-        
-        for(int i=0; i<n; i++){
-            if(diff(startWord, wordList[i])==1){
-                q.push(i);
-                visited[i] = 1;
-            }
-        }
-
-        int ans = 1;
+        st.erase(startWord);
+        int ans = 0;
         
         while(!q.empty()){
             int nc = q.size();
             ans++;
             
             while(nc--){
-                int front = q.front();
-                
-                if(front==tar_ind) return ans;
+                string front_word = q.front();
                 q.pop();
                 
-                for(auto child: al[front]){
-                    if(!visited[child]){
-                        visited[child] = 1;
-                        q.push(child);
+                if(front_word==targetWord) return ans;
+                
+                for(int i=0; i<m; i++){
+                    
+                    char org = front_word[i];
+                    
+                    for(char ch='a'; ch<='z'; ch++){
+                        front_word[i] = ch;
+                        
+                        if(st.find(front_word)!=st.end()){
+                            st.erase(front_word);
+                            q.push(front_word);
+                        }
                     }
+                    
+                    front_word[i] = org;
                 }
             }
         }
