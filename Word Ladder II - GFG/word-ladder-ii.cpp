@@ -8,7 +8,7 @@ using namespace std;
 
 class Solution {
 public:
-    void dfs(string &word, string startWord, vector<string> &curr, unordered_map<string, int> &mpp, vector<vector<string>> &ans, int m){
+    void dfs(string &word, string &startWord, vector<string> &curr, unordered_map<string, int> &mpp, vector<vector<string>> &ans, int m){
         if(word==startWord){
             reverse(curr.begin(), curr.end());
             ans.push_back(curr);
