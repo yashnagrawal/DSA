@@ -6,8 +6,6 @@ using namespace std;
 class Solution {
 public:
     int diff(string &a, string &b){
-        if(a.length()!=b.length()) return INT_MAX;
-        
         int n = a.length();
         int cnt = 0;
         
@@ -20,29 +18,49 @@ public:
 
     int wordLadderLength(string startWord, string targetWord, vector<string>& wordList) {
         // Code here
-        queue<string> q;
+        queue<int> q;
         int n = wordList.size();
         
-        unordered_map<string, bool> visited;
+        vector<list<int>> al(n);
+        vector<bool> visited(n, 0);
         
-        q.push(startWord);
-        visited[startWord] = 1;
-        int ans = 0;
+        int tar_ind = -1;
+        
+        for(int i=0; i<n; i++){
+            if(targetWord==wordList[i]) tar_ind = i;
+            for(int j=i+1; j<n; j++){
+                if(diff(wordList[i], wordList[j])==1){
+                    al[i].push_back(j);
+                    al[j].push_back(i);
+                }
+            }
+        }
+        
+        if(tar_ind==-1) return 0;
+        
+        for(int i=0; i<n; i++){
+            if(diff(startWord, wordList[i])==1){
+                q.push(i);
+                visited[i] = 1;
+            }
+        }
+
+        int ans = 1;
         
         while(!q.empty()){
             int nc = q.size();
             ans++;
             
             while(nc--){
-                string front = q.front();
+                int front = q.front();
                 
-                if(front==targetWord) return ans;
+                if(front==tar_ind) return ans;
                 q.pop();
                 
-                for(int i=0; i<n; i++){
-                    if(!visited[wordList[i]]&&diff(front, wordList[i])==1){
-                        q.push(wordList[i]);
-                        visited[wordList[i]] = 1;
+                for(auto child: al[front]){
+                    if(!visited[child]){
+                        visited[child] = 1;
+                        q.push(child);
                     }
                 }
             }
