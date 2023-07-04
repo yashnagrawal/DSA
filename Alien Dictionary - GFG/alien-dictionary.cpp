@@ -49,7 +49,6 @@ class Solution{
             if(indegree.find(ch)!=indegree.end()){
                 if(indegree[ch]==0){
                     q.push(ch);
-                    // cout<<"pushed: "<<ch<<"\n";
                 }
             }
         }
@@ -64,13 +63,10 @@ class Solution{
             for(auto child: al[ch]){
                 indegree[child]--;
                 if(indegree[child]==0){
-                    // cout<<"pushed: "<<child<<"\n";
                     q.push(child);
                 }
             }
         }
-        
-        // cout<<ans<<"\n";
         
         return ans;
     }
