@@ -8,11 +8,24 @@ using namespace std;
 // User function Template for C++
 class Solution {
   public:
+     void dfs(int node, vector<pair<int, int>> adj[], vector<int> &topo_sort, vector<bool> &visited){
+         visited[node] = 1;
+         for(auto pr: adj[node]){
+             int child = pr.first;
+             if(!visited[child]){
+                 dfs(child, adj, topo_sort, visited);
+             }
+         }
+         
+         topo_sort.push_back(node);
+     }
      vector<int> shortestPath(int n,int m, vector<vector<int>>& edges){
         // code here
         vector<int> shortest_path_len(n, INT_MAX);
         int src = 0;
         vector<bool> visited(n, 0);
+        queue<int> q;
+        vector<int> topo_sort;
         
         vector<pair<int, int>> adj[n];
         
@@ -20,29 +33,20 @@ class Solution {
             adj[vtr[0]].push_back({vtr[1], vtr[2]});
         }
         
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-        pq.push({src, 0});
+        dfs(src, adj, topo_sort, visited);
+        
+        reverse(topo_sort.begin(), topo_sort.end());
+        
         shortest_path_len[src] = 0;
         
-        while(!pq.empty()){
-            int front = pq.top().second;
-            int curr_dis = pq.top().first;
-            pq.pop();
+        for(auto node: topo_sort){
             
-            for(auto pr: adj[front]){
+            for(auto pr: adj[node]){
                 int child = pr.first;
-                int new_dis = curr_dis + pr.second;
+                int dis = shortest_path_len[node] + pr.second;
                 
-                if(visited[child]) continue;
-                
-                if(shortest_path_len[child]>new_dis){
-                    shortest_path_len[child] = new_dis;
-                    pq.push({new_dis, child});
-                }
-                
+                shortest_path_len[child] = min(shortest_path_len[child], dis);
             }
-            
-            visited[front] = 1;
         }
         
         for(int i=0; i<n; i++){
@@ -50,7 +54,6 @@ class Solution {
         }
         
         return shortest_path_len;
-        
     }
 };
 
