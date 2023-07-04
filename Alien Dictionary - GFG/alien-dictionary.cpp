@@ -9,30 +9,22 @@ using namespace std;
 
 class Solution{
     public:
-    void recr(int ind, int lo, int hi, string dict[], unordered_map<char, unordered_set<char>> &al){
-        if(ind>=dict[lo].length()) return;
-        
-        for(int i=lo+1; i<=hi; i++){
-            
-            if(ind>=dict[i].length()) continue;
-            
-            if(dict[lo][ind]!=dict[i][ind]){
-                al[dict[lo][ind]].insert(dict[i][ind]);
-                
-                recr(ind+1, lo, i-1, dict, al);
-                if(i!=hi) recr(ind, i, hi, dict, al);
-                return;
-            }
-        }
-        
-        recr(ind+1, lo, hi, dict, al);
-    }
     string findOrder(string dict[], int n, int k) {
         //code here
         
         unordered_map<char, unordered_set<char>> al;
         
-        recr(0, 0, n-1, dict, al);
+        for(int i=0; i<n-1; i++){
+            string s1 = dict[i];
+            string s2 = dict[i+1];
+            
+            for(int j=0; j<min(s1.length(), s2.length()); j++){
+                if(s1[j]!=s2[j]){
+                    al[s1[j]].insert(s2[j]);
+                    break;
+                }
+            }
+        }
         
         queue<char> q;
         
