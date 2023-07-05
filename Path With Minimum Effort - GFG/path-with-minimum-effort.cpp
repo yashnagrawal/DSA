@@ -18,11 +18,11 @@ class Solution {
         
         vector<int> addx = {-1, 1, 0, 0};
         vector<int> addy = {0, 0, -1, 1};
-        vector<vector<int>> dist(n, vector<int> (m, INT_MAX));
+        vector<vector<int>> max_effort(n, vector<int> (m, INT_MAX));
         vector<vector<bool>> visited(n, vector<bool> (m, 0));
         
         pq.push({0, {0, 0}});
-        dist[0][0] = 0;
+        max_effort[0][0] = 0;
         
         while(!pq.empty()){
             int x = pq.top().second.first;
@@ -40,18 +40,18 @@ class Solution {
                 
                 if(visited[nx][ny]) continue;
                 
-                int diff = max(dist[x][y], abs(heights[x][y] - heights[nx][ny]));
+                int diff = max(max_effort[x][y], abs(heights[x][y] - heights[nx][ny]));
                 
-                if(dist[nx][ny]>diff){
-                    dist[nx][ny] = diff;
+                if(max_effort[nx][ny]>diff){
+                    max_effort[nx][ny] = diff;
                     pq.push({diff, {nx, ny}});
                 }
             }
             
         }
         
-        if(dist[n-1][m-1]==INT_MAX) return -1;
-        return dist[n-1][m-1];
+        if(max_effort[n-1][m-1]==INT_MAX) return -1;
+        return max_effort[n-1][m-1];
     }
 };
 
