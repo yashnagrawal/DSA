@@ -13,41 +13,48 @@ class Solution {
     vector<int> addx = {-1, 1, 0, 0};
     vector<int> addy = {0, 0, -1, 1};
     
-    bool inRange(int i, int j, int m, int n){
-        return i>=0&&i<m&&j>=0&&j<n;
+    bool inRange(int i, int j, int n, int m){
+        return i>=0&&j>=0&&i<n&&j<m;
     }
-    int shortestPath(vector<vector<int>> &g, pair<int, int> s,
-                     pair<int, int> d) {
+    
+    int shortestPath(vector<vector<int>> &grid, pair<int, int> source,
+                     pair<int, int> destination) {
         // code here
-        int m = g.size(), n = g[0].size();
-        int ans = -1;
+        
+        if(grid[source.first][source.second]==0||grid[destination.first][destination.second]==0) return -1;
+        
+        int n = grid.size();
+        int m = grid[0].size();
+        
         queue<pair<int, int>> q;
         
-        q.push({s.first, s.second});
-        g[s.first][s.second]=2;
+        q.push(source);
+        grid[source.first][source.second] = 0;
+        int dis = -1;
         
         while(!q.empty()){
-            ans++;
             int nc = q.size();
+            dis++;
+            
             
             while(nc--){
-                int fx = q.front().first;
-                int fy = q.front().second;
+                if(q.front()==destination) return dis;
+                int i = q.front().first;
+                int j = q.front().second;
+                
                 q.pop();
                 
-                if(fx == d.first&&fy==d.second) return ans;
-                
-                for(int i=0; i<4; i++){
-                    int nx = fx + addx[i];
-                    int ny = fy + addy[i];
+                for(int k=0; k<4; k++){
+                    int x = i + addx[k];
+                    int y = j + addy[k];
                     
-                    if(inRange(nx, ny, m, n)&&g[nx][ny]==1){
-                        g[nx][ny]=2;
-                        q.push({nx, ny});
+                    if(inRange(x, y, n, m)&&grid[x][y]){
+                        grid[x][y] = 0;
+                        q.push({x, y});
                     }
                 }
-                
             }
+
         }
         
         return -1;
