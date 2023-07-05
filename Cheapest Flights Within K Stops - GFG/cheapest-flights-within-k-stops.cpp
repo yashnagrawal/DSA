@@ -14,8 +14,6 @@ class Solution {
         }
         
         queue<pair<int, int>> q;
-        
-        vector<bool> visited(n, 0);
         vector<int> min_cost(n, INT_MAX);
         
         q.push({0, src});
@@ -31,7 +29,6 @@ class Solution {
                 int node = q.front().second;
                 int prev_cost = q.front().first;
                 
-                visited[node] = 1;
                 q.pop();
                 
                 
