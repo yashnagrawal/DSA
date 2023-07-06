@@ -30,12 +30,6 @@ class Solution {
             size[parent2]+=size[parent1]+1;
         }
         
-        else if(size1>size2){
-            parent[parent2] = parent1;
-            
-            size[parent1]+=size[parent2]+1;
-        }
-        
         else{
             parent[parent2] = parent1;
             
