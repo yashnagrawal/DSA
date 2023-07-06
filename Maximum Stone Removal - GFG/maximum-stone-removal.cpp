@@ -6,18 +6,31 @@ using namespace std;
 
 
 // } Driver Code Ends
-class Solution {
-  public:
-    int findUParent(vector<int> &parent, int ind){
-        if(parent[ind]==ind) return ind;
+
+class DisjointSet{
+    private:
+    vector<int> parent;
+    vector<int> size;
+    
+    public:
+    DisjointSet(int n){
+        parent.resize(n+1);
+        size.resize(n+1, 0);
         
-        return parent[ind] = findUParent(parent, parent[ind]);
+        for(int i=0; i<=n; i++){
+            parent[i] = i;
+        }
     }
     
-    void unionSet(vector<int> &parent, vector<int> &size, int ind1, int ind2){
+    int findUParent(int node){
+        if(parent[node]==node) return node;
         
-        int parent1 = findUParent(parent, ind1);
-        int parent2 = findUParent(parent, ind2);
+        return parent[node] = findUParent(parent[node]);
+    }
+    
+    void unionSet(int node1, int node2){
+        int parent1 = findUParent(node1);
+        int parent2 = findUParent(node2);
         
         if(parent1==parent2) return;
         
@@ -26,57 +39,46 @@ class Solution {
         
         if(size1<size2){
             parent[parent1] = parent2;
-            
-            size[parent2]+=size[parent1]+1;
+            size[parent2]+=size1+1;
         }
         
         else{
             parent[parent2] = parent1;
-            
-            size[parent1]+=size[parent2]+1;
+            size[parent1]+=size2+1;
         }
     }
+};
+
+class Solution {
+  public:
     
     int maxRemove(vector<vector<int>>& stones, int n) {
         // Code here
-        unordered_map<int, vector<int>> rows, cols;
+        unordered_set<int> stoneNodes;
         
-        vector<int> parent(n), size(n, 0);
+        int maxRow = 0, maxCol = 0;
+        
+        for(auto itr: stones){
+            maxRow = max(maxRow, itr[0]);
+            maxCol = max(maxCol, itr[1]);
+        }
+        
+        DisjointSet ds = DisjointSet(maxRow + maxCol + 1);
         
         for(int i=0; i<n; i++){
             int row = stones[i][0];
-            int col = stones[i][1];
+            int col = stones[i][1]+1+maxRow;
             
-            rows[row].push_back(i);
-            cols[col].push_back(i);
+            ds.unionSet(row, col);
             
-            parent[i] = i;
+            stoneNodes.insert(row);
+            stoneNodes.insert(col);
         }
         
-        for(auto pr: rows){
-            int npr = pr.second.size();
-            
-            for(int i=1; i<npr; i++){
-                unionSet(parent, size, pr.second[0], pr.second[i]);
-            }
-        }
+        int removable_stones = n;
         
-        for(auto pr: cols){
-            int npr = pr.second.size();
-            
-            for(int i=1; i<npr; i++){
-                unionSet(parent, size, pr.second[0], pr.second[i]);
-            }
-        }
-        
-        int removable_stones = 0;
-        
-        for(int i=0; i<n; i++){
-            int prnt = findUParent(parent, i);
-            
-            removable_stones+=size[prnt];
-            
-            size[prnt] = 0;
+        for(auto node: stoneNodes){
+            if(node==ds.findUParent(node)) removable_stones--;
         }
         
         return removable_stones;
