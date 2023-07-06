@@ -13,12 +13,25 @@ class Solution
 	    return parent[node] = findParent(parent, parent[node]);
 	}
 	
-	bool unionSet(int parent[], int node1, int node2){
+	bool unionSet(int parent[], int size[], int node1, int node2){
 	    int parent1 = findParent(parent, node1);
 	    int parent2 = findParent(parent, node2);
 	    
 	    if(parent1==parent2) return false;
-	    parent[parent1] = parent2;
+	    
+	    if(size[parent1]<size[parent2]){
+	        size[parent2]+=size[parent1];
+	        parent[parent1] = parent2;
+	    }
+	    else if(size[parent2]<size[parent1]){
+	        size[parent1]+=size[parent2];
+	        parent[parent2] = parent1; 
+	    }
+	    
+	    else{
+	        size[parent1]+=size[parent2]+1;
+	        parent[parent2] = parent1; 
+	    }
 	    
 	    return true;
 	}
@@ -31,8 +44,12 @@ class Solution
                         greater<pair<int, pair<int, int>>>> pq;
         
         int parent[V];
+        int size[V];
         
-        for(int i=0; i<V; i++) parent[i] = i;
+        for(int i=0; i<V; i++){
+            parent[i] = i;
+            size[i] = 0;
+        }
         
         for(int i=0; i<V; i++){
             int node1 = i;
@@ -58,7 +75,7 @@ class Solution
             int parent1 = findParent(parent, node1);
             int parent2 = findParent(parent, node2);
             
-            if(unionSet(parent, parent1, parent2)) sum+=weight;
+            if(unionSet(parent, size, parent1, parent2)) sum+=weight;
         }
         
         return sum;
