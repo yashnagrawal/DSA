@@ -8,37 +8,84 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    int dfs(int ind, vector<vector<int>>& stones, int n, vector<bool> &visited){
-        visited[ind] = 1;
-        int cnt = 1;
+    int findUParent(vector<int> &parent, int ind){
+        if(parent[ind]==ind) return ind;
         
-        int row = stones[ind][0];
-        int col = stones[ind][1];
+        return parent[ind] = findUParent(parent, parent[ind]);
+    }
+    
+    void unionSet(vector<int> &parent, vector<int> &size, int ind1, int ind2){
         
-        for(int i=0; i<n; i++){
-            if(visited[i]) continue;
+        int parent1 = findUParent(parent, ind1);
+        int parent2 = findUParent(parent, ind2);
+        
+        if(parent1==parent2) return;
+        
+        int size1 = size[parent1];
+        int size2 = size[parent2];
+        
+        if(size1<size2){
+            parent[parent1] = parent2;
             
-            if(row==stones[i][0]||col==stones[i][1]) cnt+=dfs(i, stones, n, visited);
+            size[parent2]+=size[parent1]+1;
         }
         
-        return cnt;
+        else if(size1>size2){
+            parent[parent2] = parent1;
+            
+            size[parent1]+=size[parent2]+1;
+        }
+        
+        else{
+            parent[parent2] = parent1;
+            
+            size[parent1]+=size[parent2]+1;
+        }
     }
     
     int maxRemove(vector<vector<int>>& stones, int n) {
         // Code here
-        vector<bool> visited(n, 0);
+        unordered_map<int, vector<int>> rows, cols;
         
-        int max_stones_possible = 0;
+        vector<int> parent(n), size(n, 0);
         
         for(int i=0; i<n; i++){
-            if(visited[i]) continue;
+            int row = stones[i][0];
+            int col = stones[i][1];
             
-            int stones_here = dfs(i, stones, n, visited);
+            rows[row].push_back(i);
+            cols[col].push_back(i);
             
-            max_stones_possible+=stones_here-1;
+            parent[i] = i;
         }
         
-        return max_stones_possible;
+        for(auto pr: rows){
+            int npr = pr.second.size();
+            
+            for(int i=1; i<npr; i++){
+                unionSet(parent, size, pr.second[0], pr.second[i]);
+            }
+        }
+        
+        for(auto pr: cols){
+            int npr = pr.second.size();
+            
+            for(int i=1; i<npr; i++){
+                unionSet(parent, size, pr.second[0], pr.second[i]);
+            }
+        }
+        
+        int removable_stones = 0;
+        
+        for(int i=0; i<n; i++){
+            int prnt = findUParent(parent, i);
+            
+            removable_stones+=size[prnt];
+            
+            size[prnt] = 0;
+        }
+        
+        return removable_stones;
     }
 };
 
