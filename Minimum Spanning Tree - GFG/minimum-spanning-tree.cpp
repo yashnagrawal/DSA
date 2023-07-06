@@ -7,48 +7,61 @@ class Solution
 {
 	public:
 	//Function to find sum of weights of edges of the Minimum Spanning Tree.
+	int findParent(int parent[], int node){
+	    if(node == parent[node]) return node;
+	    
+	    return parent[node] = findParent(parent, parent[node]);
+	}
+	
+	bool unionSet(int parent[], int node1, int node2){
+	    int parent1 = findParent(parent, node1);
+	    int parent2 = findParent(parent, node2);
+	    
+	    if(parent1==parent2) return false;
+	    parent[parent1] = parent2;
+	    
+	    return true;
+	}
+	
     int spanningTree(int V, vector<vector<int>> adj[])
     {
         // code here
-        priority_queue<pair<int, int>, 
-                        vector<pair<int, int>>,
-                        greater<pair<int, int>>> pq;
+        priority_queue<pair<int, pair<int, int>>,
+                        vector<pair<int, pair<int, int>>>,
+                        greater<pair<int, pair<int, int>>>> pq;
         
-        vector<bool> visited(V, 0);
+        int parent[V];
         
-        pq.push({0, 0});
+        for(int i=0; i<V; i++) parent[i] = i;
         
-        int tree_cnt = 0;
+        for(int i=0; i<V; i++){
+            int node1 = i;
+            
+            for(auto vtr: adj[node1]){
+                int node2 = vtr[0];
+                int weight = vtr[1];
+                
+                pq.push({weight, {node1, node2}});
+            }
+        }
+        
         int sum = 0;
         
-        while(!pq.empty()&&tree_cnt!=V){
-            int node = pq.top().second;
+        while(!pq.empty()){
+            int node1 = pq.top().second.first;
+            int node2 = pq.top().second.second;
             
             int weight = pq.top().first;
             
             pq.pop();
             
-            if(visited[node]) continue;
+            int parent1 = findParent(parent, node1);
+            int parent2 = findParent(parent, node2);
             
-            sum+=weight;
-            
-            // cout<<node<<": "<<weight<<"\n";
-            
-            visited[node] = 1;
-            tree_cnt++;
-            
-            for(auto vtr: adj[node]){
-                int nbrNode = vtr[0];
-                int new_weight = vtr[1];
-                
-                if(visited[nbrNode]) continue;
-                
-                pq.push({new_weight, nbrNode});
-            }
+            if(unionSet(parent, parent1, parent2)) sum+=weight;
         }
         
         return sum;
-        
     }
 };
 
