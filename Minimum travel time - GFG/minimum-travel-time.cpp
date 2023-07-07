@@ -43,7 +43,9 @@ class Solution {
     int Solve(int n, vector<vector<int>>& grid) {
         // code here
         
-        for(int t=grid[0][0]; t<INT_MAX; t++){
+        int st = max(grid[n-1][n-1], grid[0][0]);
+        
+        for(int t=st; t<INT_MAX; t++){
             if(isPossibleToReach(t, grid, n)) return t;
         }
         
