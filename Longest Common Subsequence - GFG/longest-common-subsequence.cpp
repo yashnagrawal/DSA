@@ -18,9 +18,7 @@ class Solution
         for(int i=0; i<n; i++){
             for(int j=0; j<m; j++){
                 if(s1[i]==s2[j]) dp[i][j] = 1+(i&&j?dp[i-1][j-1]:0);
-                else{
-                    dp[i][j] = max((j?dp[i][j-1]:0), (i?dp[i-1][j]:0));
-                }
+                else dp[i][j] = max((j?dp[i][j-1]:0), (i?dp[i-1][j]:0));
             }
         }
         
