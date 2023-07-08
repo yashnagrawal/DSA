@@ -9,19 +9,20 @@ class Solution{
 	int perfectSum(int arr[], int n, int sum)
 	{
         // Your code goes here
-        vector<vector<long long>> dp(n+1, vector<long long> (sum+1, 0));
-        //dp[i][j] row i-1, sum j
+        vector<vector<int>> dp(n, vector<int> (sum+1, 0));
         
-        dp[0][0]=1;
+        dp[0][0] = 1;
+        dp[0][arr[0]]++;
         
-        for(int i=1; i<=n; i++){
-            for(int j=0; j<=sum; j++){
-                dp[i][j]=dp[i-1][j];
-                if(j>=arr[i-1]) dp[i][j]=(dp[i][j]+dp[i-1][j-arr[i-1]])%1000000007;
+        for(int i=1; i<n; i++){
+            for(int target=0; target<=sum; target++){
+                dp[i][target] = dp[i-1][target];
+                
+                if(target-arr[i]>=0) dp[i][target] = (dp[i][target] + dp[i-1][target-arr[i]])%1000000007;
             }
         }
         
-        return dp[n][sum];
+        return dp[n-1][sum];
 	}
 	  
 };
