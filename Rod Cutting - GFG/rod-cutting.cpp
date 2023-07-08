@@ -14,14 +14,11 @@ class Solution{
         //code here
         vector<int> dp(n+1, 0);
         
-        //dp[i] max value obtained by cutting in any possible combination
+        // dp[ind][len] = max(dp[ind-1][len], price[ind] + dp[ind][len-ind+1]);
         
-        dp[0]=0;
-        
-        for(int i=1; i<=n; i++){
-            
-            for(int k=0; k<=i; k++){
-                dp[i]=max(dp[i], dp[k]+price[i-k-1]);
+        for(int len=1; len<=n; len++){
+            for(int i=0; i<n&&len-i-1>=0; i++){
+                dp[len] = max(dp[len], price[i] + dp[len-i-1]); 
             }
         }
         
