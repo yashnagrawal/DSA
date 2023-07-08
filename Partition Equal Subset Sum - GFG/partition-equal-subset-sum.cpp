@@ -9,8 +9,6 @@ using namespace std;
 
 class Solution{
 public:
-    
-    
     int equalPartition(int n, int arr[])
     {
         // code here
@@ -25,6 +23,7 @@ public:
         vector<vector<bool>> dp(n, vector<bool> (half_sum+1, 0));
         
         if(arr[0]<=half_sum) dp[0][arr[0]] = 1;
+        dp[0][0] = 1;
         
         for(int i=1; i<n; i++){
             for(int j=0; j<=half_sum; j++){
