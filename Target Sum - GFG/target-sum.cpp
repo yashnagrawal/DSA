@@ -19,19 +19,24 @@ class Solution {
         
         for(int i=0; i<n; i++) arr_sum+=arr[i];
         
-        vector<vector<int>> dp(n, vector<int> (2*arr_sum+1, 0));
+        if((arr_sum + target)%2||(target>arr_sum)||(target<-arr_sum)) return 0;
         
-        dp[0][arr_sum+arr[0]]++;
-        dp[0][arr_sum-arr[0]]++;
+        int req_sum = (arr_sum + target)/2;
+        
+        vector<vector<int>> dp(n, vector<int> (arr_sum+1, 0));
+        
+        dp[0][0]++;
+        dp[0][arr[0]]++;
         
         for(int i=1; i<n; i++){
-            for(int sum=-arr_sum; sum<=arr_sum; sum++){
-                if(arr_sum+sum-arr[i]>=0) dp[i][arr_sum+sum] = dp[i-1][arr_sum+sum-arr[i]];
-                if(arr_sum+sum+arr[i]<=2*arr_sum) dp[i][arr_sum+sum] += dp[i-1][arr_sum+sum+arr[i]];
+            for(int sum=0; sum<=req_sum; sum++){
+                dp[i][sum] = dp[i-1][sum];
+                
+                if(sum-arr[i]>=0) dp[i][sum]+=dp[i-1][sum-arr[i]];
             }
         }
         
-        return dp[n-1][arr_sum+target];
+        return dp[n-1][req_sum];
     }
 };
 
