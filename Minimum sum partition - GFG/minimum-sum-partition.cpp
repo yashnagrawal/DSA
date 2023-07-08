@@ -13,20 +13,20 @@ class Solution{
 	    
 	    for(int i=0; i<n; i++) sum+=arr[i];
 	    
-	    vector<vector<bool>> dp(n, vector<bool> (sum+1, 0));
+	    vector<vector<bool>> dp(n, vector<bool> (sum/2+1, 0));
 	    
 	    dp[0][arr[0]] = 1;
 	    dp[0][0] = 1;
 	    
 	    for(int i=1; i<n; i++){
-	        for(int j=0; j<=sum; j++){
+	        for(int j=0; j<=sum/2; j++){
 	            dp[i][j] = dp[i-1][j];
 	            
 	            if(j-arr[i]>=0) dp[i][j] = dp[i][j] || dp[i-1][j-arr[i]];
 	        }
 	    }
 	    
-	    for(int curr_sum = 0; curr_sum<=sum; curr_sum++){
+	    for(int curr_sum = 0; curr_sum<=sum/2; curr_sum++){
 	        if(!dp[n-1][curr_sum]) continue;
 	        
 	        int curr_diff = abs(sum-(2*curr_sum));
