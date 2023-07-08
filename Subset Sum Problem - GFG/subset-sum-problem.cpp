@@ -9,25 +9,26 @@ using namespace std;
 
 class Solution{   
 public:
+    bool recr(int i, int sum, vector<int>&arr, int n, vector<vector<int>> &dp){
+        if(sum==0) return 1;
+        if(sum<0||i<0) return 0;
+        
+        if(dp[i][sum]!=-1) return dp[i][sum];
+        
+        if(recr(i-1, sum, arr, n, dp)) return dp[i][sum] = 1;
+        
+        if(recr(i-1, sum-arr[i], arr, n, dp)) return dp[i][sum] = 1;
+        
+        return dp[i][sum] = 0;
+    }
     bool isSubsetSum(vector<int>arr, int sum){
         // code here 
         // dp[i][j] = dp[i-1][j]||dp[i-1][j-arr[i]]
         int n = arr.size();
         
-        vector<vector<bool>> dp(n+1, vector<bool> (sum+1, 0));
+        vector<vector<int>> dp(n, vector<int> (sum+1, -1));
         
-        dp[0][0] = 1;
-        
-        for(int i=1; i<=n; i++){
-            for(int j=0; j<=sum; j++){
-                
-                dp[i][j] = dp[i-1][j];
-                
-                if(j-arr[i-1]>=0) dp[i][j] = dp[i][j] || dp[i-1][j-arr[i-1]];
-            }
-        }
-        
-        return dp[n][sum];
+        return recr(n-1, sum, arr, n, dp);
     }
 };
 
