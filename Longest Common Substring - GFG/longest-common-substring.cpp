@@ -6,6 +6,16 @@ using namespace std;
 class Solution{
     public:
     
+    int recr(int i, int j, string &str1, string &str2, vector<vector<int>> &dp){
+        if(i<0||j<0) return 0;
+        
+        if(dp[i][j]!=-1) return dp[i][j];
+        
+        if(str1[i]!=str2[j]) return dp[i][j] = 0;
+        
+        return dp[i][j] = 1 + recr(i-1, j-1, str1, str2, dp);
+    }
+    
     int longestCommonSubstr (string str1, string str2, int n, int m)
     {
         // your code here
@@ -17,15 +27,12 @@ class Solution{
         // D 0 0 2 0 0 0
         // G 0 0 0 3 0 0
         // H 0 0 0 0 4 0
-        vector<vector<int>> dp(n, vector<int> (m, 0));
+        vector<vector<int>> dp(n, vector<int> (m, -1));
         int ans = 0;
         
         for(int i=0; i<n; i++){
             for(int j=0; j<m; j++){
-                if(str1[i]!=str2[j]) continue;
-                
-                dp[i][j] = 1 + (i&&j?dp[i-1][j-1]:0);
-                ans = max(ans, dp[i][j]);
+                ans = max(ans, recr(i, j, str1, str2, dp));
             }
         }
         
