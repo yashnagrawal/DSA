@@ -6,33 +6,38 @@ using namespace std;
 class Solution{
   public:
 /*You are required to complete this method*/
-    int wildCard(string p,string s)
+    int wildCard(string pattern,string str)
     {
-        int np = p.length(), ns = s.length();
+        int np = pattern.length();
+        int ns = str.length();
         
         vector<vector<bool>> dp(np+1, vector<bool> (ns+1, 0));
         
-        // dp[i][j] p ith, s jth
-        
-        //dp[0][0] = 1;
-        // dp[i][0] while(p[i-1]=='*') dp[i]=1;
-        // dp[0][j] = 0 j>0
-        
         dp[0][0] = 1;
-        for(int i=1; i<=np; i++){
-            if(p[i-1]=='*') dp[i][0]=1;
+        
+        for(int i=0; i<np; i++){
+            if(pattern[i]=='*') dp[i+1][0] = 1;
             else break;
         }
         
         for(int i=1; i<=np; i++){
             for(int j=1; j<=ns; j++){
-                if(p[i-1]==s[j-1]||p[i-1]=='?') dp[i][j]=dp[i-1][j-1];
-                else if (p[i-1]=='*') dp[i][j]=dp[i-1][j]||dp[i][j-1];
+                if(pattern[i-1]=='?'||pattern[i-1]==str[j-1]) dp[i][j] = dp[i-1][j-1];
+                else if(pattern[i-1]=='*'){
+                    for(int k=j; k>=0; k--){
+                        if(dp[i-1][k]){
+                            dp[i][j] = 1;
+                            break;
+                        }
+                    }
+                }
             }
         }
         
         
-        return dp[np][ns];
+        if(dp[np][ns]) return 1;
+        return 0;
+        
     }
 };
 
