@@ -28,9 +28,10 @@ class Solution{
 	    
 	    int lcs = lcs_finder(str1, str2, n1, n2);
 	    
-	    int ans = (n1-lcs) + (n2-lcs);
+	    int deletions = n1-lcs;
+	    int insertions = n2-lcs;
 	    
-	    return ans;
+	    return deletions + insertions;
 	    
 	} 
 };
