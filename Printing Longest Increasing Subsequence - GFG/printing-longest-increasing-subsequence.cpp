@@ -6,30 +6,45 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    vector<int> longestIncreasingSubsequence(int n, vector<int>& a) {
+    vector<int> longestIncreasingSubsequence(int n, vector<int>& arr) {
         // Code here
+        set<int> st(arr.begin(), arr.end());
         
-        vector<int> dp(n, 1), parent(n, -1), ans;
-        int maxi = 0;
+        vector<int> sorted;
+        
+        for(auto it: st) sorted.push_back(it);
+        
+        int m = sorted.size();
+        
+        vector<vector<int>> dp(n, vector<int> (n+1, -1e9));
         
         for(int i=0; i<n; i++){
-            for(int j=0; j<i; j++){
-                if(a[i]>a[j]&&dp[i]<dp[j]+1){
-                    dp[i]=dp[j]+1;
-                    parent[i]=j;
-                }
+            for(int j=0; j<m; j++){
+                if(arr[i]==sorted[j]) dp[i][j] = 1 + (i&&j?dp[i-1][j-1]:0);
+                else dp[i][j] = max((i?dp[i-1][j]:0), (j?dp[i][j-1]:0));
             }
-            if(dp[maxi]<dp[i]) maxi = i;
         }
         
-        while(maxi!=-1){
-            ans.push_back(a[maxi]);
-            maxi=parent[maxi];
+        vector<int> subseq;
+        
+        int i = n-1;
+        int j = m-1;
+        
+        while(i>=0&&j>=0&&dp[i][j]){
+            if(arr[i]==sorted[j]){
+                subseq.push_back(arr[i]);
+                i--;
+                j--;
+            }
+            else if(i&&(j==0||dp[i-1][j]>=dp[i][j-1])){
+                i--;
+            }
+            else j--;
         }
         
-        reverse(ans.begin(), ans.end());
+        reverse(subseq.begin(), subseq.end());
         
-        return ans;
+        return subseq;
     }
 };
 
