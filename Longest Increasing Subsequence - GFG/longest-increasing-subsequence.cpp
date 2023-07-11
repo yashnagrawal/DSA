@@ -12,16 +12,19 @@ class Solution
     int longestSubsequence(int n, int a[])
     {
        // your code here
-       vector<int> lis;
+       vector<int> length;
        
        for(int i=0; i<n; i++){
-           int pos = lower_bound(lis.begin(), lis.end(), a[i])-lis.begin();
-           
-           if(pos==lis.size()) lis.push_back(a[i]);
-           else lis[pos]=a[i];
+           if(length.size()==0) length.push_back(a[i]);
+           else{
+               auto it = lower_bound(length.begin(), length.end(), a[i]);
+               
+               if(it==length.end()) length.push_back(a[i]);
+               else *it = a[i];
+           }
        }
        
-       return lis.size();
+       return length.size();
     }
 };
 
