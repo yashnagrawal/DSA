@@ -5,31 +5,39 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
   public:
-    vector<int> LargestSubset(int n, vector<int>& a) {
+    vector<int> LargestSubset(int n, vector<int>& arr) {
         // Code here
-        sort(a.begin(), a.end());
-        vector<int> lds(n, 1); 
-        vector<int> predecessor(n, -1);
-        vector<int> ans;
+        sort(arr.begin(), arr.end());
         
-        int ansi = 0;
+        vector<int> dp(n, 1);
+        vector<int> prev(n, -1);
+        
+        int max_len = 1;
+        int last_ind = 0;
         
         for(int i=0; i<n; i++){
             for(int j=0; j<i; j++){
-                if(a[i]%a[j]==0&&lds[i]<lds[j]+1){
-                    lds[i]=lds[j]+1;
-                    predecessor[i]=j;
-                }
+                if((arr[i]%arr[j])!=0||dp[i]>=1+dp[j]) continue;
+                
+                dp[i] = 1 + dp[j];
+                prev[i] = j;
             }
-            if(lds[ansi]<lds[i]) ansi = i;
+            
+            if(max_len<dp[i]){
+                max_len = dp[i];
+                last_ind = i;
+            }
         }
         
-        while(ansi!=-1){
-            ans.push_back(a[ansi]);
-            ansi=predecessor[ansi];
+        vector<int> subset;
+        while(last_ind!=-1){
+            subset.push_back(arr[last_ind]);
+            last_ind = prev[last_ind];
         }
         
-        return ans;
+        reverse(subset.begin(), subset.end());
+        
+        return subset;
     }
 };
 
