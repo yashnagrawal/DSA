@@ -5,38 +5,35 @@ using namespace std;
 // } Driver Code Ends
 class Solution{
 	public:
-	vector<int> largestIncreasingSubsequence(vector<int>nums, int n){
-	    vector<int> lis;
-	    vector<int> ans(n);
-	   // lis.push_back(nums[0]);
-	    
-	    for(int i=0; i<n; i++){
-	       int pos = lower_bound(lis.begin(), lis.end(), nums[i])-lis.begin();
-	       
-	       if(pos==lis.size()) lis.push_back(nums[i]);
-	       else lis[pos]=nums[i];
-	       ans[i]=pos+1;
-	    }
-	    
-	    return ans;
-	}
-	
 	int LongestBitonicSequence(vector<int>nums)
 	{
 	    // code here
 	    int n = nums.size();
-	    int ans = 0;
-	    vector<int> lis = largestIncreasingSubsequence(nums, n);
 	    
-	    reverse(nums.begin(), nums.end());
+	    vector<int> dp_front(n, 1), dp_back(n, 1);
 	    
-	    vector<int> lds = largestIncreasingSubsequence(nums, n);
+	    for(int i=0; i<n; i++){
+	        for(int j=0; j<i; j++){
+	            if(nums[i]<=nums[j]) continue;
+	            dp_front[i] = max(dp_front[i], 1+dp_front[j]);
+	        }
+	    }
 	    
-	    reverse(lds.begin(), lds.end());
+	    for(int i=n-1; i>=0; i--){
+	        for(int j=n-1; j>i; j--){
+	            if(nums[i]<=nums[j]) continue;
+	            
+	            dp_back[i] = max(dp_back[i], 1 + dp_back[j]);
+	        }
+	    }
 	    
-	    for(int i=0; i<n; i++) ans = max(ans, lis[i]+lds[i]-1);
+	    int max_len = 1;
 	    
-	    return ans;
+	    for(int i=0; i<n; i++){
+	        max_len = max(max_len, dp_front[i] + dp_back[i] - 1);
+	    }
+	    
+	    return max_len;
 	}
 };
 
