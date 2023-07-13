@@ -5,7 +5,7 @@ using namespace std;
 // } Driver Code Ends
 class Solution{
 	public:
-	int LongestBitonicSequence(vector<int>nums)
+	int LongestBitonicSequence(vector<int> &nums)
 	{
 	    // code here
 	    int n = nums.size();
