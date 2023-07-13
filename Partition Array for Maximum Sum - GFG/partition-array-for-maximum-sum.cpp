@@ -5,26 +5,27 @@ using namespace std;
 // } Driver Code Ends
 class Solution{
     public:
-    int solve(int n, int k, vector<int>& a){
+    int solve(int n, int k, vector<int>& arr){
         // Code here
+        vector<int> dp(n);
         
-        vector<int> dp(n+1, 0);
+        dp[0] = arr[0];
         
-        for(int i=1; i<=n; i++){
-            // cout<<i<<": ";
-            int maxi = a[i-1];
-            for(int j=i-1; i-j<=k&&j>=0; j--){
-                maxi=max(maxi, a[j]);
-                dp[i]=max(dp[i], (i-j)*maxi+dp[j]);
-                // cout<<j<<": maxi - "<<maxi<<"; ";
+        for(int i=1; i<n; i++){
+            int maxi = -1;
+            
+            for(int j=i; j>=0; j--){
+                int cnt = i-j+1;
+                
+                if(cnt>k) break;
+                
+                maxi = max(maxi, arr[j]);
+                
+                dp[i] = max(dp[i], (j?dp[j-1]:0) + maxi*cnt);
             }
-            // cout<<"\n";
         }
         
-        // for(auto i: dp) cout<<i<<" ";
-        // cout<<"\n";
-        
-        return dp[n];
+        return dp[n-1];
     }
 };
 
