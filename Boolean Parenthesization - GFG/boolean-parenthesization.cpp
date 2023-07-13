@@ -47,10 +47,10 @@ public:
                     }
                     else cout<<"error: "<<i<<", "<<j<<": "<<k<<"\n";
                     
-                    dp_true[i][j] %=mod;
-                    dp_false[i][j] %=mod;
                 }
                 
+                dp_true[i][j] %=mod;
+                dp_false[i][j] %=mod;
             }
         }
         
