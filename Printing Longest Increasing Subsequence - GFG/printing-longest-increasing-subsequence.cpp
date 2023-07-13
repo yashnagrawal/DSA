@@ -8,43 +8,37 @@ class Solution {
   public:
     vector<int> longestIncreasingSubsequence(int n, vector<int>& arr) {
         // Code here
-        set<int> st(arr.begin(), arr.end());
-        
-        vector<int> sorted;
-        
-        for(auto it: st) sorted.push_back(it);
-        
-        int m = sorted.size();
-        
-        vector<vector<int>> dp(n, vector<int> (n+1, -1e9));
+        vector<int> dp(n, 1);
+        vector<int> prev(n, -1);
+        int max_len = 1;
+        int last_ind = 0;
         
         for(int i=0; i<n; i++){
-            for(int j=0; j<m; j++){
-                if(arr[i]==sorted[j]) dp[i][j] = 1 + (i&&j?dp[i-1][j-1]:0);
-                else dp[i][j] = max((i?dp[i-1][j]:0), (j?dp[i][j-1]:0));
+            for(int j=0; j<i; j++){
+                if(arr[i]<=arr[j]||dp[i]>=1+dp[j]) continue;
+                
+                prev[i] = j;
+                dp[i] = 1 + dp[j];
+            }
+            
+            if(max_len<dp[i]){
+                max_len = dp[i];
+                last_ind = i;
             }
         }
         
-        vector<int> subseq;
+        vector<int> lis;
         
-        int i = n-1;
-        int j = m-1;
+        int ind = last_ind;
         
-        while(i>=0&&j>=0&&dp[i][j]){
-            if(arr[i]==sorted[j]){
-                subseq.push_back(arr[i]);
-                i--;
-                j--;
-            }
-            else if(i&&(j==0||dp[i-1][j]>=dp[i][j-1])){
-                i--;
-            }
-            else j--;
+        while(ind!=-1){
+            lis.push_back(arr[ind]);
+            ind = prev[ind];
         }
         
-        reverse(subseq.begin(), subseq.end());
+        reverse(lis.begin(), lis.end());
         
-        return subseq;
+        return lis;
     }
 };
 
