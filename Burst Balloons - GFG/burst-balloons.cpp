@@ -6,25 +6,31 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
 public:
-    int maxCoins(int n, vector<int> &arr) {
-        // code here
-        vector<vector<int>> dp(n+2, vector<int> (n+2, 0));
-        vector<int> a;
-        a.push_back(1);
-        for(int i=0; i<n; i++) a.push_back(arr[i]);
-        a.push_back(1);
+    int recr(int st, int ed, int lo, int hi, vector<int> &arr, vector<vector<int>> &dp){
+        if(st>ed) return 0; 
+        if(st==ed) return lo*arr[st]*hi;
         
-        for(int i=1; i<=n; i++) dp[i][i]=a[i-1]*a[i]*a[i+1];
+        if(dp[st][ed]!=-1) return dp[st][ed];
         
-        for(int len = 1; len<n; len++){
-            for(int i=1; i+len<=n; i++){
-                int j = i+len;
-                
-                for(int k=i; k<=j; k++) dp[i][j]=max(dp[i][j], (dp[i][k-1]+dp[k+1][j]+(a[i-1]*a[k]*a[j+1])));
-            }
+        int max_coins = 0;
+        
+        for(int i=st; i<=ed; i++){
+            int left = recr(st, i-1, lo, arr[i], arr, dp);
+            int right = recr(i+1, ed, arr[i], hi, arr, dp);
+            
+            int coins_here = left + lo*arr[i]*hi + right;
+            
+            max_coins = max(max_coins, coins_here);
         }
         
-        return dp[1][n];
+        return dp[st][ed] = max_coins;
+    }
+    int maxCoins(int n, vector<int> &arr) {
+        // code here
+        
+        vector<vector<int>> dp(n, vector<int> (n, -1));
+        
+        return recr(0, n-1, 1, 1, arr, dp);
     }
 };
 
