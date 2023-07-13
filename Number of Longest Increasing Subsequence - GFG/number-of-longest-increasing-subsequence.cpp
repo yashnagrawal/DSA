@@ -5,41 +5,37 @@ using namespace std;
 // } Driver Code Ends
 class Solution{
     public:
-    int NumberofLIS(int n, vector<int>&a) {
+    int NumberofLIS(int n, vector<int>&arr) {
         // Code here
+        vector<int> dp(n, 1);
+        vector<int> count(n, 1);
         
-        int lis_length=0;
-        int ans = 0;
-        
-        vector<int> nlis(n, 1);
-        
-        vector<int> lis(n, 1);
+        int no_of_subseq = 0;
+        int lis_len = 0;
         
         for(int i=0; i<n; i++){
             for(int j=0; j<i; j++){
-                if(a[i]>a[j]) lis[i]=max(lis[i], 1+lis[j]);
+                if(arr[i]<=arr[j]) continue;
+                
+                if(dp[i]<1+dp[j]){
+                    dp[i] = 1 + dp[j];
+                    count[i] = count[j];
+                }
+                else if(dp[i] == 1 + dp[j]){
+                    count[i]+=count[j];
+                }
             }
             
-            int ans = 0;
-            for(int j=0; j<i; j++){
-                if(a[i]>a[j]&&lis[i]==lis[j]+1) ans+=nlis[j]; 
+            if(lis_len==dp[i]){
+                no_of_subseq+=count[i];
             }
-            nlis[i]=max(1, ans);
-            
-            lis_length=max(lis_length, lis[i]);
+            else if(lis_len<dp[i]){
+                no_of_subseq = count[i];
+                lis_len = dp[i];
+            }
         }
         
-        for(int i=0; i<n; i++){
-            if(lis[i]==lis_length) ans+=nlis[i];
-        }
-        
-        // for(auto i: lis) cout<<i<<" ";
-        // cout<<"\n";
-        
-        // for(auto j: nlis) cout<<j<<" ";
-        // cout<<"\n";
-        
-        return ans;
+        return no_of_subseq;
     }
 };
 
