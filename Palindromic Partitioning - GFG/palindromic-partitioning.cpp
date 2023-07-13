@@ -9,29 +9,39 @@ using namespace std;
 
 class Solution{
 public:
-    int palindromicPartition(string s)
+    int palindromicPartition(string str)
     {
         // code here
-        int n = s.length();
+        int n = str.length();
         
         vector<vector<bool>> isPalindrome(n, vector<bool> (n, 0));
-        
-        vector<int> cut(n, INT_MAX);
+        vector<int> cuts(n, INT_MAX);
         
         for(int i=0; i<n; i++) isPalindrome[i][i] = 1;
         
-        for(int i=0; i<n; i++){
-            for(int j=0; j<=i; j++){
-                if(s[i]==s[j]&&(j+1>i-1||isPalindrome[j+1][i-1])){
-                    isPalindrome[j][i] = 1;
-                    int cuts = 0;
-                    if(j>0) cuts = cut[j-1] + 1;
-                    cut[i] = min(cut[i], cuts);
-                }
+        for(int len=1; len<n; len++){
+            for(int i=0; i+len<n; i++){
+                int j = i + len;
+                
+                if(str[i]!=str[j]) continue;
+                
+                if(len==1) isPalindrome[i][j] = 1;
+                else if(isPalindrome[i+1][j-1]) isPalindrome[i][j] = 1;
             }
         }
         
-        return cut[n-1];
+        for(int i=0; i<n; i++){
+            if(isPalindrome[0][i]){
+                cuts[i] = 0;
+                continue;
+            }
+            
+            for(int j=1; j<=i; j++){
+                if(isPalindrome[j][i]) cuts[i] = min(cuts[i], 1 + cuts[j-1]);
+            }
+        }
+        
+        return cuts[n-1];
     }
 };
 
