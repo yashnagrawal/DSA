@@ -28,25 +28,29 @@ public:
                     char op = str[k];
                     
                     if(op=='&'){
-                        dp_true[i][j] = (dp_true[i][j] + dp_true[i][k-1]*dp_true[k+1][j])%mod;
-                        dp_false[i][j] = (dp_false[i][j] + dp_true[i][k-1]*dp_false[k+1][j])%mod;
-                        dp_false[i][j] = (dp_false[i][j] + dp_false[i][k-1]*dp_true[k+1][j])%mod;
-                        dp_false[i][j] = (dp_false[i][j] + dp_false[i][k-1]*dp_false[k+1][j])%mod;
+                        dp_true[i][j] += dp_true[i][k-1]*dp_true[k+1][j];
+                        dp_false[i][j] += dp_true[i][k-1]*dp_false[k+1][j];
+                        dp_false[i][j] += dp_false[i][k-1]*dp_true[k+1][j];
+                        dp_false[i][j] += dp_false[i][k-1]*dp_false[k+1][j];
                     }
                     else if(op=='|'){
-                        dp_true[i][j] = (dp_true[i][j] + dp_true[i][k-1]*dp_true[k+1][j])%mod;
-                        dp_true[i][j] = (dp_true[i][j] + dp_true[i][k-1]*dp_false[k+1][j])%mod;
-                        dp_true[i][j] = (dp_true[i][j] + dp_false[i][k-1]*dp_true[k+1][j])%mod;
-                        dp_false[i][j] = (dp_false[i][j] + dp_false[i][k-1]*dp_false[k+1][j])%mod;
+                        dp_true[i][j] += dp_true[i][k-1]*dp_true[k+1][j];
+                        dp_true[i][j] += dp_true[i][k-1]*dp_false[k+1][j];
+                        dp_true[i][j] += dp_false[i][k-1]*dp_true[k+1][j];
+                        dp_false[i][j] += dp_false[i][k-1]*dp_false[k+1][j];
                     }
                     else if(op=='^'){
-                        dp_false[i][j] = (dp_false[i][j] + dp_true[i][k-1]*dp_true[k+1][j])%mod;
-                        dp_true[i][j] = (dp_true[i][j] + dp_true[i][k-1]*dp_false[k+1][j])%mod;
-                        dp_true[i][j] = (dp_true[i][j] + dp_false[i][k-1]*dp_true[k+1][j])%mod;
-                        dp_false[i][j] = (dp_false[i][j] + dp_false[i][k-1]*dp_false[k+1][j])%mod;
+                        dp_false[i][j] += dp_true[i][k-1]*dp_true[k+1][j];
+                        dp_true[i][j] += dp_true[i][k-1]*dp_false[k+1][j];
+                        dp_true[i][j] += dp_false[i][k-1]*dp_true[k+1][j];
+                        dp_false[i][j] += dp_false[i][k-1]*dp_false[k+1][j];
                     }
                     else cout<<"error: "<<i<<", "<<j<<": "<<k<<"\n";
+                    
+                    dp_true[i][j] %=mod;
+                    dp_false[i][j] %=mod;
                 }
+                
             }
         }
         
