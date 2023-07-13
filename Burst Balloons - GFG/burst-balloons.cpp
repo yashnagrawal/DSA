@@ -6,31 +6,36 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
 public:
-    int recr(int st, int ed, int lo, int hi, vector<int> &arr, vector<vector<int>> &dp){
-        if(st>ed) return 0; 
-        if(st==ed) return lo*arr[st]*hi;
-        
-        if(dp[st][ed]!=-1) return dp[st][ed];
-        
-        int max_coins = 0;
-        
-        for(int i=st; i<=ed; i++){
-            int left = recr(st, i-1, lo, arr[i], arr, dp);
-            int right = recr(i+1, ed, arr[i], hi, arr, dp);
-            
-            int coins_here = left + lo*arr[i]*hi + right;
-            
-            max_coins = max(max_coins, coins_here);
-        }
-        
-        return dp[st][ed] = max_coins;
-    }
     int maxCoins(int n, vector<int> &arr) {
         // code here
+        vector<vector<int>> dp(n, vector<int> (n, 0));
         
-        vector<vector<int>> dp(n, vector<int> (n, -1));
+        for(int i=0; i<n; i++){
+            int left = i?arr[i-1]:1;
+            int center = arr[i];
+            int right = (i<n-1)?arr[i+1]:1;
+            
+            dp[i][i] = left*center*right;
+        }
         
-        return recr(0, n-1, 1, 1, arr, dp);
+        for(int len=1; len<n; len++){
+            for(int i=0; i+len<n; i++){
+                int j = i + len;
+                
+                int left = i?arr[i-1]:1;
+                int right = (j<n-1)?arr[j+1]:1;
+                
+                for(int k=i; k<=j; k++){
+                    int left_sub = k?dp[i][k-1]:0;
+                    int right_sub = k<n-1?dp[k+1][j]:0;
+                    int coins_here = left_sub + left*arr[k]*right + right_sub;
+                    
+                    dp[i][j] = max(dp[i][j], coins_here);
+                }
+            }
+        }
+        
+        return dp[0][n-1];
     }
 };
 
