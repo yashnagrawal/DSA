@@ -20,32 +20,26 @@ class Trie{
         for(char ch='a'; ch<='z'; ch++) children[ch] = NULL;
     }
     
-    void insert(string str){
+    bool insert(string str){
         int n = str.length();
         Trie *itr = this;
+        bool areAllPrefixPresent = 1;
         
         for(int i=0; i<n; i++){
             char ch = str[i];
             
-            if(itr->children[str[i]]==NULL) itr->children[ch] = new Trie();
+            if(itr->children[str[i]]==NULL){
+                itr->children[ch] = new Trie();
+            }
             
             itr = itr->children[str[i]];
+            
+            if(itr->isLeaf==0&&(i!=n-1)) areAllPrefixPresent = 0;
         }
         
         itr->isLeaf = 1;
-    }
-    
-    bool areAllPrefixPresent(string str){
-        int n = str.length();
-        Trie *itr = this;
         
-        for(int i=0; i<n; i++){
-            if(itr->children[str[i]]->isLeaf==0) return false;
-            
-            itr = itr->children[str[i]];
-        }
-        
-        return itr->isLeaf;
+        return areAllPrefixPresent;
     }
 };
 
@@ -57,27 +51,22 @@ public:
         // code here
         int n = words.size();
         Trie *root = new Trie();
+        int str_len = 0;
+        int str_ind = -1;
         
         sort(words.begin(), words.end());
         
         for(int i=0; i<n; i++){
-            root->insert(words[i]);
-        }
-        
-        string str = "";
-        int str_len = 0;
-        
-        for(int i=0; i<n; i++){
-            string word = words[i];
-            int wlen = words[i].length();
-            
-            if(root->areAllPrefixPresent(word)&&str_len<wlen){
-                str_len = wlen;
-                str = word;
+            int len = words[i].length();
+            if(root->insert(words[i])&&len>str_len){
+                str_len = len;
+                str_ind = i;
             }
         }
         
-        return str;
+        if(str_ind==-1) return "";
+        
+        return words[str_ind];
     }
 };
 
