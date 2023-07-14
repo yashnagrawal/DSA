@@ -7,31 +7,41 @@ using namespace std;
 // } Driver Code Ends
 //User function template for C++
 
+
 class Solution{
   public:
     
     string longestCommonPrefix (string arr[], int n)
     {
         // your code here
-        string ans = "";
+        string common_str = "";
         
         int ind = 0;
         
         while(1){
-            if(arr[0].size()==ind) break;
-            bool isIndCommon = 1;
+            if(ind==arr[0].length()) break;
+            
+            char ch = arr[0][ind];
+            
+            bool is_ch_common = 1;
+            
             for(int i=1; i<n; i++){
-                if(ind==arr[i].size()||arr[i][ind]!=arr[0][ind]) {
-                    isIndCommon = 0;
+                if(ind==arr[i].length()||ch!=arr[i][ind]){
+                    is_ch_common = 0;
                     break;
                 }
             }
-            if(isIndCommon) ans+=arr[0][ind++];
-            else break;
+            
+            if(!is_ch_common) break;
+            
+            common_str+=string(1, ch);
+            
+            ind++;
         }
         
-        if(ans=="") ans = "-1";
-        return ans;
+        if(common_str=="") return "-1";
+        
+        return common_str;
     }
 };
 
