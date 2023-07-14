@@ -8,6 +8,8 @@ using namespace std;
 // } Driver Code Ends
 //User function Template for C++
 
+#define CHAR_TO_INDEX(ch) ((int)ch - (int)'a')
+
 class Trie{
     public:
     bool isLeaf;
@@ -15,9 +17,7 @@ class Trie{
     
     Trie(){
         isLeaf = 0;
-        children.resize(256);
-        
-        for(char ch='a'; ch<='z'; ch++) children[ch] = NULL;
+        children.resize(26, NULL);
     }
     
     bool insert(string str){
@@ -26,13 +26,13 @@ class Trie{
         bool areAllPrefixPresent = 1;
         
         for(int i=0; i<n; i++){
-            char ch = str[i];
+            int ind = CHAR_TO_INDEX(str[i]);
             
-            if(itr->children[str[i]]==NULL){
-                itr->children[ch] = new Trie();
+            if(itr->children[ind]==NULL){
+                itr->children[ind] = new Trie();
             }
             
-            itr = itr->children[str[i]];
+            itr = itr->children[ind];
             
             if(itr->isLeaf==0&&(i!=n-1)) areAllPrefixPresent = 0;
         }
