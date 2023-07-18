@@ -37,7 +37,7 @@ class Solution
                 ind++;
             }
             // cout<<i+1<<": "<<new_str<<"\n";
-            str = new_str;
+            str.swap(new_str);
         }
         
         return str;
