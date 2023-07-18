@@ -5,37 +5,27 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
 public:
-    bool sortByStartTime(vector<int> a, vector<int> b){
+    static bool sort_by_start(vector<int> &a, vector<int> &b){
         return a[0]<b[0];
     }
-
+    
     vector<vector<int>> overlappedInterval(vector<vector<int>>& intervals) {
-        int n = intervals.size();
          // Code here
-         vector<vector<int>> ans;
+         sort(intervals.begin(), intervals.end(), sort_by_start);
          
-         sort(intervals.begin(), intervals.end());
+         int n = intervals.size();
          
+         vector<vector<int>> merged;
          
-         int startTime = intervals[0][0];
-         int endTime = intervals[0][1];
-         
-         for(int i=1; i<n; i++){
-             if(intervals[i][0]<=endTime){
-                 endTime = max(endTime, intervals[i][1]);
-             }
+         for(int i=0; i<n; i++){
+             int st = intervals[i][0];
+             int ed = intervals[i][1];
              
-             else{
-                 ans.push_back({startTime, endTime});
-                 startTime = intervals[i][0];
-                 endTime =intervals[i][1];
-             }
+             if(merged.size()==0||merged.back()[1]<st) merged.push_back(intervals[i]);
+             else merged.back()[1] = max(merged.back()[1], ed);
          }
          
-         ans.push_back({startTime, endTime});
-         
-         return ans;
-         
+         return merged;
     }
 };
 
