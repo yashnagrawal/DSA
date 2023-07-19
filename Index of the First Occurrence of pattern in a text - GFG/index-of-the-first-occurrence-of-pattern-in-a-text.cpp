@@ -12,19 +12,33 @@ class Solution {
         int nt = text.length();
         int np = pat.length();
         
-        for(int i=0; i<=nt-np; i++){
+        vector<int> lps(np, 0);
+        
+        for(int i=1; i<np; i++){
+            int j = lps[i-1];
             
-            bool isIndPat = 1;
+            while(j&&pat[i]!=pat[j]) j = lps[j-1];
             
-            for(int j=0; j<np; j++){
-                if(text[i+j]!=pat[j]){
-                    isIndPat = 0;
-                    break;
-                }
-            }
+            if(pat[i]==pat[j]) j++;
             
-            if(isIndPat) return i;
+            lps[i] = j;
         }
+        
+        int j = 0;
+        
+        for(int i=0; i<nt; i++){
+            
+            while(j>=0&&text[i]!=pat[j]) j = lps[j] - 1;
+            
+            if(j==-1) j=0;
+            
+            if(text[i]==pat[j]) j++;
+            // if(i>20) cout<<i<<": "<<text[i]<<", "<<j<<"\n";
+            
+            if(j==np) return i-np+1;
+            
+        }
+        
         
         return -1;
     }
