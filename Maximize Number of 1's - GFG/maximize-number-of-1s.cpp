@@ -12,27 +12,22 @@ public:
     int findZeroes(int arr[], int n, int m) {
         // code here
         
-        int ans = 0;
-        
-        int j = 0; // starting 1 or 0
-        
-        int flips = 0;
+        int j = 0;
+        int ans = 1;
         
         for(int i=0; i<n; i++){
-            if(arr[i]==0) flips++;
+            if(arr[i]==0) m--;
             
-            while(j<n&&flips>m){
-                if(arr[j]==0) flips--;
-                j++;
+            if(m<0){
+                while(arr[j++]==1);
+            
+                m++;
             }
             
-            if(j>=n) break;
-            
-            ans=max(ans, i-j+1);
+            ans = max(ans, i-j+1);
         }
         
         return ans;
-        
     }  
 };
 
