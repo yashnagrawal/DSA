@@ -11,21 +11,25 @@ public:
 	// largest elements
 	int print2largest(int arr[], int n) {
 	    // code here
-	    int max1 = -1, max2 = -1;
+	    int maxi1 = -1;
+	    int maxi2 = -1;
 	    
 	    for(int i=0; i<n; i++){
-	        if(max2<arr[i]){
-	            if(max1<arr[i]){
-	                max2 = max1;
-	                max1 = arr[i];
+	       // if(arr[i]==1000){
+	       //     cout<<maxi1<<", "<<maxi2<<"\n";
+	       // }
+	        
+	        if(arr[i]>maxi2){
+	            if(arr[i]>maxi1){
+	                maxi2 = maxi1;
+	                maxi1 = arr[i];
 	            }
-	            else if(max1!=arr[i]) {
-	                max2 = arr[i];
-	            }
+	            else if(maxi1!=arr[i]) maxi2 = arr[i];
 	        }
+	        
 	    }
 	    
-	    return max2;
+	    return maxi2;
 	}
 };
 
