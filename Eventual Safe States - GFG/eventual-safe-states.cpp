@@ -8,6 +8,9 @@ using namespace std;
 // } Driver Code Ends
 // User function Template for C++
 
+#define CYCLIC 2
+
+
 class Solution {
   public:
     void isNodeConnectedToCyclic(int node, vector<int> adj[], vector<int> &visited, vector<bool> &ancestor){
@@ -15,12 +18,12 @@ class Solution {
         ancestor[node] = 1;
         
         for(auto child: adj[node]){
-            if(ancestor[child]) visited[node] = 2;
+            if(ancestor[child]) visited[node] = CYCLIC;
             
             if(visited[child]==0){
                 isNodeConnectedToCyclic(child, adj, visited, ancestor);
             }
-            if(visited[child]==2) visited[node] = 2;
+            if(visited[child]==2) visited[node] = CYCLIC;
         }
         
         ancestor[node] = 0;
