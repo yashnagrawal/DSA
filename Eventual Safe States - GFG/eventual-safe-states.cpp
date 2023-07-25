@@ -10,36 +10,38 @@ using namespace std;
 
 class Solution {
   public:
+    void isNodeConnectedToCyclic(int node, vector<int> adj[], vector<int> &visited, vector<bool> &ancestor){
+        visited[node] = 1;
+        ancestor[node] = 1;
+        
+        for(auto child: adj[node]){
+            if(ancestor[child]) visited[node] = 2;
+            
+            if(visited[child]==0){
+                isNodeConnectedToCyclic(child, adj, visited, ancestor);
+            }
+            if(visited[child]==2) visited[node] = 2;
+        }
+        
+        ancestor[node] = 0;
+        
+        return;
+    }
     vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
         // code here
-        vector<int> inverse_adj[V];
-        vector<int> inverse_graph_indegree(V, 0);
+        vector<int> visited(V, 0);
+        vector<bool> ancestor(V, 0);
+        
+        for(int i=0; i<V; i++){
+            if(!visited[i]) isNodeConnectedToCyclic(i, adj, visited, ancestor);
+        }
+        
         vector<int> safeNodes;
-        queue<int> q;
         
         for(int i=0; i<V; i++){
-            for(auto j: adj[i]) inverse_adj[j].push_back(i);
-            
-            inverse_graph_indegree[i] = adj[i].size();
+            if(visited[i]==1) safeNodes.push_back(i);
         }
         
-        for(int i=0; i<V; i++){
-            if(inverse_graph_indegree[i]==0) q.push(i);
-        }
-        
-        while(!q.empty()){
-            int front = q.front();
-            safeNodes.push_back(front);
-            q.pop();
-            
-            for(auto child: inverse_adj[front]){
-                inverse_graph_indegree[child]--;
-                
-                if(inverse_graph_indegree[child]==0) q.push(child);
-            }
-        }
-        
-        sort(safeNodes.begin(), safeNodes.end());
         
         return safeNodes;
     }
