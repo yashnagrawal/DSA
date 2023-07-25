@@ -9,8 +9,11 @@ class DisjointSet{
     public:
     vector<int> parent;
     vector<int> size;
+    int limit;
     
     DisjointSet(int n){
+        limit = n;
+        
         parent.resize(n+1);
         size.resize(n+1, 0);
         
@@ -18,7 +21,6 @@ class DisjointSet{
     }
     
     int findParent(int num){
-        if(size[num]==0) return -1;
         
         if(parent[num]==num) return num;
         
@@ -28,7 +30,7 @@ class DisjointSet{
     int unionWithConsequtive(int num){
         size[num] = 1;
         
-        if(num&&size[num-1]>0){
+        if(num&&size[num-1]){
             int parent1 = findParent(num);
             int parent2 = findParent(num-1);
             
@@ -47,7 +49,7 @@ class DisjointSet{
             }
         }
         
-        if(size[num+1]>0){
+        if(((num+1)<=limit)&&size[num+1]){
             int parent1 = findParent(num);
             int parent2 = findParent(num+1);
             
@@ -81,7 +83,7 @@ class DisjointSet{
         
         cout<<"\n";
         
-        for(int i=st; i<=ed; i++) cout<<size[i]<<"  ";
+        for(int i=st; i<=ed; i++) cout<<size[i]<<" ";
         
         cout<<"\n";
     }
@@ -96,17 +98,19 @@ class Solution{
     int findLongestConseqSubseq(int arr[], int n)
     {
       //Your code here
-      DisjointSet ds(100000);
+      int maxi = 0;
+      
+      for(int i=0; i<n; i++) maxi = max(maxi, arr[i]);
+      
+      DisjointSet ds(maxi);
       
       int ans = 1;
       
       for(int i=0; i<n; i++){
-          
           ans = max(ans, ds.unionWithConsequtive(arr[i]));
           
         //   cout<<arr[i]<<": \n";
-          
-        //   ds.printDisjointSet(41, 47);
+        //   ds.printDisjointSet(0, 9);
       }
       
       return ans;
