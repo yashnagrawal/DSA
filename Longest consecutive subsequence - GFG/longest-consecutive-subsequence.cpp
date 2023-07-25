@@ -4,6 +4,89 @@ using namespace std;
 
 
 // } Driver Code Ends
+
+class DisjointSet{
+    public:
+    vector<int> parent;
+    vector<int> size;
+    
+    DisjointSet(int n){
+        parent.resize(n+1);
+        size.resize(n+1, 0);
+        
+        for(int i=0; i<=n; i++) parent[i] = i;
+    }
+    
+    int findParent(int num){
+        if(size[num]==0) return -1;
+        
+        if(parent[num]==num) return num;
+        
+        return parent[num] = findParent(parent[num]);
+    }
+    
+    int unionWithConsequtive(int num){
+        size[num] = 1;
+        
+        if(num&&size[num-1]>0){
+            int parent1 = findParent(num);
+            int parent2 = findParent(num-1);
+            
+            int size1 = size[parent1];
+            int size2 = size[parent2];
+            
+            if(parent1!=parent2){
+                if(size1<size2){
+                    parent[parent1] = parent2;
+                    size[parent2]+=size1;
+                }
+                else{
+                    parent[parent2] = parent1;
+                    size[parent1]+=size2;
+                }
+            }
+        }
+        
+        if(size[num+1]>0){
+            int parent1 = findParent(num);
+            int parent2 = findParent(num+1);
+            
+            int size1 = size[parent1];
+            int size2 = size[parent2];
+            
+            if(parent1!=parent2){
+                if(size1<size2){
+                    parent[parent1] = parent2;
+                    size[parent2]+=size1;
+                }
+                else{
+                    parent[parent2] = parent1;
+                    size[parent1]+=size2;
+                    
+                }
+            }
+        }
+        
+        
+        
+        return size[findParent(num)];
+    }
+    
+    void printDisjointSet(int st, int ed){
+        for(int i=st; i<=ed; i++) cout<<i<<" ";
+        
+        cout<<"\n";
+        
+        for(int i=st; i<=ed; i++) cout<<parent[i]<<" ";
+        
+        cout<<"\n";
+        
+        for(int i=st; i<=ed; i++) cout<<size[i]<<"  ";
+        
+        cout<<"\n";
+    }
+};
+
 class Solution{
   public:
     // arr[] : the input array
@@ -13,26 +96,17 @@ class Solution{
     int findLongestConseqSubseq(int arr[], int n)
     {
       //Your code here
+      DisjointSet ds(100000);
       
       int ans = 1;
-      unordered_set<int> s;
       
       for(int i=0; i<n; i++){
-          s.insert(arr[i]);
-      }
-      
-      for(auto i: s){
-          if(s.find(i-1)==s.end()){
-              int count = 1;
-              int curr = i;
-              
-              while(s.find(curr+1)!=s.end()){
-                  count++;
-                  curr++;
-              }
-              
-              ans=max(ans, count);
-          }
+          
+          ans = max(ans, ds.unionWithConsequtive(arr[i]));
+          
+        //   cout<<arr[i]<<": \n";
+          
+        //   ds.printDisjointSet(41, 47);
       }
       
       return ans;
