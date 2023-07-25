@@ -3,84 +3,53 @@
 using namespace std;
 
 // } Driver Code Ends
+
 class Solution
 {
+    typedef pair<int, int> iPair;
 	public:
 	//Function to find sum of weights of edges of the Minimum Spanning Tree.
-	int findParent(int parent[], int node){
-	    if(node == parent[node]) return node;
-	    
-	    return parent[node] = findParent(parent, parent[node]);
-	}
-	
-	bool unionSet(int parent[], int size[], int node1, int node2){
-	    int parent1 = findParent(parent, node1);
-	    int parent2 = findParent(parent, node2);
-	    
-	    if(parent1==parent2) return false;
-	    
-	    if(size[parent1]<size[parent2]){
-	        size[parent2]+=size[parent1];
-	        parent[parent1] = parent2;
-	    }
-	    else if(size[parent2]<size[parent1]){
-	        size[parent1]+=size[parent2];
-	        parent[parent2] = parent1; 
-	    }
-	    
-	    else{
-	        size[parent1]+=size[parent2]+1;
-	        parent[parent2] = parent1; 
-	    }
-	    
-	    return true;
-	}
-	
     int spanningTree(int V, vector<vector<int>> adj[])
     {
         // code here
-        priority_queue<pair<int, pair<int, int>>,
-                        vector<pair<int, pair<int, int>>>,
-                        greater<pair<int, pair<int, int>>>> pq;
+        priority_queue<iPair, vector<iPair>, greater<iPair>> pq;
+        vector<bool> visited(V, 0);
+        vector<int> parent(V, -1);
+        vector<int> key(V, INT_MAX);
+        int ans = 0;
         
-        int parent[V];
-        int size[V];
-        
-        for(int i=0; i<V; i++){
-            parent[i] = i;
-            size[i] = 0;
-        }
-        
-        for(int i=0; i<V; i++){
-            int node1 = i;
-            
-            for(auto vtr: adj[node1]){
-                int node2 = vtr[0];
-                int weight = vtr[1];
-                
-                pq.push({weight, {node1, node2}});
-            }
-        }
-        
-        int sum = 0;
+        // weight , node
+        pq.push(make_pair(0, 0));
+        key[0] = 0;
         
         while(!pq.empty()){
-            int node1 = pq.top().second.first;
-            int node2 = pq.top().second.second;
-            
-            int weight = pq.top().first;
-            
+            auto top = pq.top();
+            int u = top.second;
+            // cout<<u<<": ";
             pq.pop();
             
-            int parent1 = findParent(parent, node1);
-            int parent2 = findParent(parent, node2);
+            if(visited[u]) continue;
             
-            if(unionSet(parent, size, parent1, parent2)) sum+=weight;
+            ans += (top.first);
+            visited[u] = 1;
+            // cout<<" "<<(top.first)<<" added || ";
+            
+            for(auto i: adj[u]){
+                int v = i[0];
+                int w = i[1];
+                if(!visited[v]&&key[v]>w){
+                    // cout<<w<<", "<<v<<"; ";
+                    key[v] = w;
+                    parent[v] = u;
+                    pq.push(make_pair(w, v));
+                }
+            }
+            // cout<<"\n";
         }
-        
-        return sum;
+        return ans;
     }
 };
+
 
 //{ Driver Code Starts.
 
