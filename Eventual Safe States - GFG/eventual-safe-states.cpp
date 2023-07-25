@@ -12,19 +12,19 @@ class Solution {
   public:
     vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
         // code here
-        vector<int> al[V];
-        vector<int> indegree(V, 0);
+        vector<int> inverse_adj[V];
+        vector<int> inverse_graph_indegree(V, 0);
         vector<int> safeNodes;
         queue<int> q;
         
         for(int i=0; i<V; i++){
-            for(auto j: adj[i]) al[j].push_back(i);
+            for(auto j: adj[i]) inverse_adj[j].push_back(i);
             
-            indegree[i] = adj[i].size();
+            inverse_graph_indegree[i] = adj[i].size();
         }
         
         for(int i=0; i<V; i++){
-            if(indegree[i]==0) q.push(i);
+            if(inverse_graph_indegree[i]==0) q.push(i);
         }
         
         while(!q.empty()){
@@ -32,10 +32,10 @@ class Solution {
             safeNodes.push_back(front);
             q.pop();
             
-            for(auto child: al[front]){
-                indegree[child]--;
+            for(auto child: inverse_adj[front]){
+                inverse_graph_indegree[child]--;
                 
-                if(indegree[child]==0) q.push(child);
+                if(inverse_graph_indegree[child]==0) q.push(child);
             }
         }
         
@@ -44,6 +44,7 @@ class Solution {
         return safeNodes;
     }
 };
+
 
 
 //{ Driver Code Starts.
