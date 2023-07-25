@@ -14,13 +14,10 @@ class Solution
         // code here
         priority_queue<iPair, vector<iPair>, greater<iPair>> pq;
         vector<bool> visited(V, 0);
-        vector<int> parent(V, -1);
-        vector<int> key(V, INT_MAX);
         int ans = 0;
         
         // weight , node
         pq.push(make_pair(0, 0));
-        key[0] = 0;
         
         while(!pq.empty()){
             auto top = pq.top();
@@ -37,10 +34,8 @@ class Solution
             for(auto i: adj[u]){
                 int v = i[0];
                 int w = i[1];
-                if(!visited[v]&&key[v]>w){
+                if(!visited[v]){
                     // cout<<w<<", "<<v<<"; ";
-                    key[v] = w;
-                    parent[v] = u;
                     pq.push(make_pair(w, v));
                 }
             }
