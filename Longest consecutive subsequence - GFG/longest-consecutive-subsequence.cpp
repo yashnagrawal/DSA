@@ -69,23 +69,7 @@ class DisjointSet{
             }
         }
         
-        
-        
         return size[findParent(num)];
-    }
-    
-    void printDisjointSet(int st, int ed){
-        for(int i=st; i<=ed; i++) cout<<i<<" ";
-        
-        cout<<"\n";
-        
-        for(int i=st; i<=ed; i++) cout<<parent[i]<<" ";
-        
-        cout<<"\n";
-        
-        for(int i=st; i<=ed; i++) cout<<size[i]<<" ";
-        
-        cout<<"\n";
     }
 };
 
@@ -108,9 +92,6 @@ class Solution{
       
       for(int i=0; i<n; i++){
           ans = max(ans, ds.unionWithConsequtive(arr[i]));
-          
-        //   cout<<arr[i]<<": \n";
-        //   ds.printDisjointSet(0, 9);
       }
       
       return ans;
