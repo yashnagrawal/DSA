@@ -9,56 +9,54 @@ using namespace std;
 
 class Solution {
   public:
-    int timer = 1;
-    void dfs(int node, int parent, vector<int>adj[], vector<int> &time, vector<int> &low, vector<int> &articulationNodes){
-        time[node] = timer;
-        low[node] = timer++;
+    void dfs(int node, int parent, int timer, vector<int> adj[], vector<int> &time, vector<int> &low, vector<bool> &articulationPoint){
+        low[node] = time[node] = timer++;
         
         int children = 0;
         
-        bool isArticulation = 0;
-        
-        for(auto nbrNode: adj[node]){
-            if(parent==nbrNode) continue;
+        for(auto child: adj[node]){
+            if(parent==child) continue;
             
-            if(time[nbrNode]==0){
+            if(time[child]==0){
                 children++;
-                dfs(nbrNode, node, adj, time, low, articulationNodes);
+                dfs(child, node, timer, adj, time, low, articulationPoint);
                 
-                low[node] = min(low[node], low[nbrNode]);
+                low[node] = min(low[node], low[child]);
                 
-                if(low[nbrNode]>=time[node]) isArticulation = 1;
+                if(time[node]<=low[child]) articulationPoint[node] = 1;    
+                
             }
-            
             else{
-                low[node] = min(low[node], time[nbrNode]);
+                low[node] = min(low[node], time[child]);
             }
         }
         
-        if(parent!=-1){
-            if(isArticulation) articulationNodes.push_back(node);
+        if(parent==-1){
+            if(children>1) articulationPoint[node] = 1;
+            else articulationPoint[node] = 0;
         }
-        else{
-            if(children>1) articulationNodes.push_back(node);
-        }
-        
     }
     
     vector<int> articulationPoints(int V, vector<int>adj[]) {
         // Code here
         vector<int> time(V, 0);
         vector<int> low(V, INT_MAX);
-        vector<int> articulationNodes;
+        vector<bool> articulationPoint(V, 0);
+        int timer = 1;
         
         for(int i=0; i<V; i++){
-            if(time[i]==0) dfs(i, -1, adj, time, low, articulationNodes);
+            if(time[i]==0) dfs(i, -1, 1, adj, time, low, articulationPoint);
         }
         
-        sort(articulationNodes.begin(), articulationNodes.end());
+        vector<int> nodes;
         
-        if(articulationNodes.size()==0) articulationNodes.push_back(-1);
+        for(int i=0; i<V; i++){
+            if(articulationPoint[i]) nodes.push_back(i);
+        }
         
-        return articulationNodes;
+        if(nodes.size()==0) nodes.push_back(-1);
+        
+        return nodes;
     }
 };
 
